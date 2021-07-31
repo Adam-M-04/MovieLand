@@ -43,6 +43,12 @@
     margin: 5px;
 }
 
+.DV_genres {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .DV_title {
     font-size: 30px;
 }
@@ -71,8 +77,15 @@
 
 .DV_backButton {
     position: absolute;
-    top: -50px;
-    
+    top: -60px;
+    width: 80px;
+    height: 35px;
+    outline: none;
+    background-color: #FCA311;
+    border-radius: 50px;
+    border: 2px solid #E5E5E5;
+    cursor: pointer;
+    font-size: 18px;
 }
 
 

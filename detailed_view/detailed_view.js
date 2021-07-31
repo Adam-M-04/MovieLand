@@ -75,7 +75,7 @@ class Detailed_view
 
         text.appendChild(title)
 
-        let genres = document.createElement('p')
+        let genres = document.createElement('div')
         genres.className = 'DV_genres'
         this.data.genres.map((genre)=>{genres.appendChild(this.createGenre(genre.name))})
         text.appendChild(genres)

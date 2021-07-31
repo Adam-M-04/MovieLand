@@ -17,6 +17,8 @@ class Pages_selector
         this.container.className = 'PS_container'
         this.createPrevButton()
         this.createInput()
+        this.numberOfPagesSpan = document.createElement('span')
+        this.container.appendChild(this.numberOfPagesSpan)
         this.createNextButton()
     }
 
@@ -33,11 +35,10 @@ class Pages_selector
             {
                 this.inputWithCurrentPage.blur();
                 let val = parseInt(this.inputWithCurrentPage.value)
-                if(val >= 1 && val <= this.numberOfPages)
-                {
-                    this.currentPage = val
-                    this.search(val, this)
-                }
+                
+                this.currentPage = this.getPage(val, this)
+                this.search(this.currentPage, this)
+                
             }
         }
         //this.inputWithCurrentPage.title = 
@@ -80,9 +81,11 @@ class Pages_selector
         else
         {
             let page = parseInt(ref.inputWithCurrentPage.value)
-            if(page > 1 && page != ref.currentPage && page < ref.numberOfPages) return page
+            if(page < 1) return 1
+            if(page > ref.numberOfPages) return ref.numberOfPages
+            if(page !== ref.currentPage) return page
         }
-        return null
+        return 1
     }
 
     show()
@@ -94,6 +97,7 @@ class Pages_selector
     setData(no_pages)
     {
         this.numberOfPages = no_pages
+        this.numberOfPagesSpan.innerText = '/ '+no_pages
         this.inputWithCurrentPage.max = no_pages
         this.currentPage = 1
         this.inputWithCurrentPage.value = 1

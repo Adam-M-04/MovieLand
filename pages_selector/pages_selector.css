@@ -1,0 +1,49 @@
+.PS_input_current_page {
+    width: 45px;
+    height: 45px;
+    margin: 10px;
+    padding-left: 20px;
+    background-color: #000814;
+    color: #E5E5E5;
+    outline: none;
+    border: 2px solid #E5E5E5;
+    text-align: center;
+}
+
+@media (pointer: coarse) , (hover: none){
+    .PS_input_current_page {
+       padding-left: 0px;
+    }
+}
+
+.PS_container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.PS_next {
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+    cursor: pointer;
+    transition: transform 100ms;
+}
+
+.PS_next:hover {
+    transform: translateX(5px);
+}
+
+.PS_prev {
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+    transform: rotate(180deg);
+    cursor: pointer;
+    transition: transform 100ms;
+}
+
+.PS_prev:hover {
+    transform: translateX(-5px) rotate(-180deg);
+}

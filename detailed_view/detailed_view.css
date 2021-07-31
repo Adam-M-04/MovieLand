@@ -1,0 +1,159 @@
+/* 'DV' prefix is shortcut of 'detailed view' */
+.DV_DETAILS {
+    max-width: 1560px;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.DV_mainDiv {
+    width: 100%;
+    height: 630px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.DV_poster {
+    width: 420px;
+    height: 630px;
+    border-radius: 10px;
+    margin-right: 20px;
+    box-shadow: 5px 5px 10px #000, -5px -5px 10px #000, -5px 5px 10px #000, 5px -5px 10px #000;
+}
+
+.DV_backdrop {
+    display: block;
+    width: 1120px;
+    height: 630px;
+    border-radius: 10px;
+    filter: brightness(0.9);
+    box-shadow: 5px 5px 10px #000, -5px -5px 10px #000, -5px 5px 10px #000, 5px -5px 10px #000;
+}
+
+.DV_mainText {
+    width: 100%;
+    padding: 10px 0px 10px 0px;
+}
+
+.DV_genre {
+    border: 2px solid #E5E5E5;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 5px;
+}
+
+.DV_title {
+    font-size: 30px;
+}
+
+.DV_secondDiv {
+    width: 100% - 40px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.DV_description {
+    width: 50%;
+    text-align: right;
+    padding-right: 30px;
+    word-wrap: break-word;
+}
+
+.DV_moreInfo {
+    width: 50%;
+    text-align: left;
+    padding-left: 30px;
+}
+
+.DV_backButton {
+    position: absolute;
+    top: -50px;
+    
+}
+
+
+@media (max-width: 1640px) and (min-width: 700px){
+    .DV_poster {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        width: 25%;
+        height: auto;
+        z-index: 2;
+        border: 1px solid #E5E5E5;
+        border-radius: 20px;
+        margin-right: 0px;
+        box-shadow: none;
+    }
+
+    .DV_backdrop {
+        display: block;
+        max-width:1550px;
+        max-height:872px;
+        width: 100%;
+        height: auto;
+        filter: brightness(0.7);
+        z-index: 1;
+    }
+
+    .DV_DETAILS{
+        height: auto;
+        width: auto;
+    }
+
+    .DV_mainDiv {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 699px){ 
+    .DV_mainDiv {
+        justify-content: center;
+        max-height: 630px;
+        height: auto;
+        width: calc(100% - 80px);
+        padding: 0px 40px 0px 40px;
+    }
+
+    .DV_poster {
+        justify-content: center;
+        max-height: 630px;
+        max-width: 420px;
+        height: auto;
+        width: 100%;
+        display: block;
+        margin-right: 0px;
+        box-shadow: 5px 5px 20px #000, -5px -5px 20px #000, -5px 5px 20px #000, 5px -5px 20px #000;
+    }
+
+    .DV_backdrop {
+        display: none;
+    }
+
+    .DV_secondDiv {
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 0px;
+    }
+
+    .DV_description {
+        text-align: justify;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 40px;
+    }
+
+    .DV_moreInfo {
+        text-align: center;
+        width: 100%;
+        padding: 10px;
+    }
+
+}

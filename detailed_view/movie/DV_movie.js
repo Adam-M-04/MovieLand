@@ -57,27 +57,7 @@ class MovieDetails
         this.data.genres.map((genre)=>{genres.appendChild(this.DV_ref.createGenre(genre.name))})
         text.appendChild(genres)
 
-        let production_countries = document.createElement('div')
-        production_countries.className = 'DV_productionCountries'
-        this.data.production_countries.map((country)=>{
-            let elmnt = document.createElement('div')
-            elmnt.className = 'DV_production_country'
-            
-            let img = createIMG(`https://www.countryflags.io/${country.iso_3166_1.toLowerCase()}/shiny/48.png`,'DV_production_country_flag' )
-            elmnt.appendChild(img)
-
-            let forceBreak = document.createElement('div')
-            forceBreak.style.cssText = 'flex-basis: 100%;height: 0;'
-            elmnt.appendChild(forceBreak)
-            
-            let name = document.createElement('span')
-            name.className = 'DV_production_country_name'
-            name.innerText = country.name
-            elmnt.appendChild(name)
-
-            production_countries.appendChild(elmnt)
-        })
-        text.appendChild(production_countries)
+        text.appendChild(this.DV_ref.createProductionCountries(this.data.production_countries))
 
         return text
     }

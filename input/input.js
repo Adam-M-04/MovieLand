@@ -69,7 +69,7 @@ class Input
         let option = this.getOption()
         if(search_phrase !== this.app.content.pages_selector.current_query || option !== this.app.content.pages_selector.current_option){
             this.app.content.contentDIV.innerHTML = 'Loading...'
-            fetch_data(`https://api.themoviedb.org/3/search/${option}?api_key=${apiKey}&query=${search_phrase}`, option, this.app.content)
+            fetch_data(`https://api.themoviedb.org/3/search/${option}?api_key=${apiKey}&query=${encodeURIComponent(search_phrase)}`, option, this.app.content)
             this.app.content.pages_selector.current_query = search_phrase
             this.app.content.pages_selector.current_option = option
         }

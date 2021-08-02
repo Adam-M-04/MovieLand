@@ -1,7 +1,8 @@
 class Content
 {
     contentDIV = document.createElement('div')
-    constructor(app){
+    constructor(app)
+    {
         this.app = app
         this.result = null;
         this.contentDIV.id = 'content'
@@ -14,7 +15,8 @@ class Content
     {
         this.result = data
         this.option = option
-        if(resetPageSelector) this.pages_selector.setData(data.total_pages)
+        if(resetPageSelector) this.pages_selector.resetPagesSelector(data.total_pages)
+        else this.pages_selector.setPage(data.page)
         this.showResult()
     }
 

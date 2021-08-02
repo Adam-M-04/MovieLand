@@ -23,7 +23,7 @@ class Input
     {
         this.filtersContainer = document.createElement('div')
         this.filtersContainer.className = 'filters_container'
-        this.filter = new Filter('Filter', ['Movies', 'TV Shows', 'People', 'All'], 3);
+        this.filter = new Filter('Filter', ['Movies', 'TV Shows', 'People', 'All'], 0);
         this.filtersContainer.appendChild(this.filter.filter)
     }
 

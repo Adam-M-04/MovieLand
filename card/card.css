@@ -73,7 +73,7 @@
 }
 
 .description {
-    height: 247px;
+    height: 248px;
     width: 170px;
     padding: 5px;
     position: absolute;
@@ -82,8 +82,9 @@
     overflow: hidden;
     word-wrap: break-word;
     display: -webkit-box;
-    -webkit-line-clamp: 13;
+    -webkit-line-clamp: 14;
     -webkit-box-orient: vertical;
     text-align: justify;
-    font-size: 14px;
+    font-size: 0.85em;
+    line-height: 18px;
 }

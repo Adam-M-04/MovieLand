@@ -43,14 +43,28 @@
     margin: 5px;
 }
 
+.DV_runtime {
+    font-size: 18px;
+    font-weight: 400;
+    padding: 5px;
+    margin: 10px;
+    margin-top: 15px;
+}
+
 .DV_genres {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    margin-top: 15px;
 }
 
 .DV_title {
     font-size: 30px;
+}
+
+.DV_tagline {
+    margin-top: -15px;
+    margin-bottom: 20px;
 }
 
 .DV_secondDiv {
@@ -73,6 +87,37 @@
     width: 50%;
     text-align: left;
     padding-left: 30px;
+}
+
+.DV_moreInfo > span {
+    padding-right: 20px;
+    font-weight: 500;
+    color: #ffffff;
+    line-height: 1.5em;
+}
+
+.DV_moreInfo > a {
+    color: #FCA311;
+}
+
+.DV_moreInfo > l {
+    word-wrap: break-word;
+}
+
+.DV_productionCountries {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.DV_production_country {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 10px;
 }
 
 .DV_backButton {
@@ -164,9 +209,15 @@
     }
 
     .DV_moreInfo {
-        text-align: center;
         width: 100%;
         padding: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .DV_moreInfo > * {
+        min-width: 35%;
     }
 
 }

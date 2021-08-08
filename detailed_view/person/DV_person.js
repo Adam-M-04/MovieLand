@@ -16,7 +16,7 @@ class PersonDetails
     createMainDiv()
     {
         let profilePhoto = createIMG(
-            (this.data.profile_path !== null) ? `https://image.tmdb.org/t/p/original${this.data.profile_path}` : '../img/default_backdrop.png',
+            (this.data.profile_path !== null) ? `https://image.tmdb.org/t/p/original${this.data.profile_path}` : '../img/default_person.svg',
             'DV_profile_img')
 
         let MainDiv = document.createElement('div')
@@ -35,18 +35,35 @@ class PersonDetails
         name.innerHTML = this.data.name
         text.appendChild(name)
 
+        if(this.data.biography) text.appendChild(this.getBiography())
+
+        text.appendChild(this.getBirth())
+
+        return text
+    }
+
+    getBiography()
+    {
         let biography = document.createElement('h4')
         biography.className = 'DV_biography'
         biography.innerHTML = this.data.biography
-        text.appendChild(biography)
+        if(this.data.biography.length > 250) biography.style.textAlign = 'justify'
+        return biography
+    }
 
+    getBirth()
+    {
         let birthday = document.createElement('div')
         birthday.className = 'DV_birthday'
-        birthday.innerText = 'Birth: ' + this.data.place_of_birth + ', ' + this.data.birthday
-        text.appendChild(birthday)
-
-
-        return text
+        birthday.innerText = 'Birth: '
+        if(!this.data.place_of_birth && !this.data.birthday) birthday.innerText += '?'
+        else
+        {
+            birthday.innerText += (this.data.place_of_birth ? this.data.place_of_birth : ' ? ') + ', '
+            birthday.innerText += this.data.birthday ? this.data.birthday : ' ? '
+        }
+        birthday.title = `Place of birth: ${this.data.place_of_birth ? this.data.place_of_birth : ' ? '}\nDate of birth: ${this.data.birthday ? this.data.birthday : ' ? '}`
+        return birthday
     }
     
 }

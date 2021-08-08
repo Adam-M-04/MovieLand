@@ -1,6 +1,7 @@
 /* 'DV' prefix is shortcut of 'detailed view' */
 .DV_DETAILS {
     max-width: 1560px;
+    width: 100%;
     position: relative;
     margin-left: 10px;
     margin-right: 10px;

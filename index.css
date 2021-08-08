@@ -24,8 +24,13 @@ body {
     text-align: left;
     font-size: 40px;
     position: absolute;
-    left: 30px;
-    top: 0px;
+    left: 20px;
+    top: -10px;
+}
+
+#logo {
+    height: 100px;
+    width: auto;
 }
 
 #title > span {

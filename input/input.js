@@ -9,24 +9,6 @@ class Input
         this.show()
     }
 
-    create_input()
-    {
-        this.input = document.createElement('input')
-        this.input.className = 'search_input'
-        this.input.placeholder = 'Search'
-        this.input.type = "text"
-        this.input.maxLength = 50
-        this.input.onkeydown = (e)=>{if(e.code==='Enter'|| e.key === 'Enter'){this.input.blur();this.search(this.input.value)}}
-    }
-
-    create_filter()
-    {
-        this.filtersContainer = document.createElement('div')
-        this.filtersContainer.className = 'filters_container'
-        this.filter = new Filter('Filter', ['Movies', 'TV Shows', 'People', 'All'], 3);
-        this.filtersContainer.appendChild(this.filter.filter)
-    }
-
     create()
     {
         let cover = document.createElement('div')
@@ -64,15 +46,22 @@ class Input
         this.cover = cover
     }
 
-    search(search_phrase)
+    create_filter()
     {
-        let option = this.getOption()
-        if(search_phrase !== this.app.content.pages_selector.current_query || option !== this.app.content.pages_selector.current_option){
-            this.app.content.contentDIV.innerHTML = 'Loading...'
-            fetch_data(`https://api.themoviedb.org/3/search/${option}?api_key=${apiKey}&query=${encodeURIComponent(search_phrase)}&include_adult=true`, option, this.app.content)
-            this.app.content.pages_selector.current_query = search_phrase
-            this.app.content.pages_selector.current_option = option
-        }
+        this.filtersContainer = document.createElement('div')
+        this.filtersContainer.className = 'filters_container'
+        this.filter = new Filter('Filter', ['Movies', 'TV Shows', 'People', 'All'], 3);
+        this.filtersContainer.appendChild(this.filter.filter)
+    }
+
+    create_input()
+    {
+        this.input = document.createElement('input')
+        this.input.className = 'search_input'
+        this.input.placeholder = 'Search'
+        this.input.type = "text"
+        this.input.maxLength = 50
+        this.input.onkeydown = (e)=>{if(e.code==='Enter'|| e.key === 'Enter'){this.input.blur();this.search(this.input.value)}}
     }
 
     getOption()
@@ -96,6 +85,16 @@ class Input
         }
     }
 
+    search(search_phrase, page = 1)
+    {
+        let option = this.getOption()
+        if(search_phrase !== this.app.content.result.query || option !== this.app.content.result.option || page !== this.app.content.result.data.page){
+            this.app.content.contentDIV.innerHTML = 'Loading...'
+            fetch_data(`https://api.themoviedb.org/3/search/${option}?api_key=${apiKey}&query=${encodeURIComponent(search_phrase)}&page=${page}&include_adult=true`, 
+                 this.app.content, option, search_phrase)
+        }
+    }
+  
     show()
     {
         if(!this.isVisible)

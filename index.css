@@ -24,17 +24,13 @@ body {
     text-align: left;
     font-size: 40px;
     position: absolute;
-    left: 20px;
     top: -10px;
+    cursor: pointer;
 }
 
 #logo {
     height: 100px;
     width: auto;
-}
-
-#title > span {
-    cursor: pointer;
 }
 
 footer {
@@ -47,4 +43,42 @@ footer {
     flex-wrap: wrap;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     order: 10;
+}
+
+.backButton {
+    position:fixed;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    outline: none;
+    background-color: #FCA311;
+    border: 2px solid #E5E5E5;
+    cursor: pointer;
+    font-size: 18px;
+    transition: left .1s;
+}
+
+.backButton:active {
+    left: 10px;
+}
+
+.backImg {
+    width: 34px;
+    height: 34px;
+    transform: rotate(0deg);
+    transition: transform .1s;
+}
+
+.backButton:active .backImg {
+    width: 34px;
+    height: 34px;
+    transform: rotate(-30deg);
+}
+
+@media (max-width: 500px){
+    #logo {
+        content: url('img/icon.png');
+    }
 }

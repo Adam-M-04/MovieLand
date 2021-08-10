@@ -1,36 +1,20 @@
 class Card
 {
-    constructor(type, data, app)
+    constructor(type, data, contentRef, minimal = false)
     {
-        this.app = app
+        this.contentRef = contentRef
         this.type = type;
         this.data = data;
+        this.minimal = minimal
 
         this.card = document.createElement('div')
         this.card.className = "card"
-        this.createDescription()
+        if(!minimal) this.createDescription()
         this.createPoster()
         this.createText()
-        if(type !== 'person') this.createVoteContainer()
-        this.createInfoIcon()
+        if(type !== 'person' && !minimal) this.createVoteContainer()
+        if(!minimal) this.createInfoIcon()
         
-    }
-
-    createPoster()
-    {
-        this.poster = createIMG(this.getPosterSRC(), 'poster')
-        this.poster.onclick = ()=>{app.content.showDetailedView(this.type, this.data.id)}
-        this.card.appendChild(this.poster)
-    }
-
-    createText()
-    {
-        let text = document.createElement('div')
-        text.className = 'card_text'
-        text.innerText = this.getText()
-        text.title = this.getText()
-        text.onclick = ()=>{app.content.showDetailedView(this.type, this.data.id)}
-        this.card.appendChild(text)
     }
 
     createDescription()
@@ -40,6 +24,60 @@ class Card
         descr.innerHTML = this.getDescriptionContent()
         descr.title = this.data.overview
         this.card.appendChild(descr)
+    }
+
+    createInfoIcon()
+    {
+        let info = createIMG('../img/info.svg', 'info_icon')
+        info.onclick = ()=>{this.showInfo()}
+        this.card.appendChild(info)
+    }
+
+    createPoster()
+    {
+        this.poster = createIMG(this.getPosterSRC(), 'poster')
+        this.poster.onclick = ()=>{this.contentRef.showDetailedView(this.type, this.data.id)}
+        this.card.appendChild(this.poster)
+    }
+
+    createText()
+    {
+        let text = document.createElement('div')
+        text.className = this.minimal ? 'card_text_minimal' : 'card_text'
+        text.innerHTML = this.getText()
+        text.title = this.getTextTitle()
+        text.onclick = ()=>{this.contentRef.showDetailedView(this.type, this.data.id)}
+        this.card.appendChild(text)
+    }
+
+    createVoteContainer(){
+        let votes = document.createElement('div')
+        votes.className = 'voteContainer'
+        votes.title = `Votes: ${this.data.vote_count} | average: ${this.data.vote_average.toFixed(1)}/10`
+
+        let star = createIMG('../img/star.svg', 'votes_star')
+        votes.appendChild(star)
+
+        let number = document.createElement('span')
+        number.innerText = this.data.vote_average.toFixed(1)
+        votes.appendChild(number)
+
+        this.card.appendChild(votes)
+    }
+
+    getDate(data = this.data)
+    {
+        if(data.release_date !== undefined)
+        {
+            if(data.release_date.length > 0)
+            return ` (${data.release_date.substring(0,4)})`
+        }
+        if(data.first_air_date !== undefined) 
+        {
+            if(data.first_air_date.length > 0)
+            return ` (${data.first_air_date.substring(0,4)})`
+        }
+        return ''
     }
 
     getDescriptionContent()
@@ -73,53 +111,6 @@ class Card
         return toReturn
     }
 
-    createVoteContainer(){
-        let votes = document.createElement('div')
-        votes.className = 'voteContainer'
-        votes.title = `Votes: ${this.data.vote_count} | average: ${this.data.vote_average.toFixed(1)}/10`
-
-        let star = createIMG('../img/star.svg', 'votes_star')
-        votes.appendChild(star)
-
-        let number = document.createElement('span')
-        number.innerText = this.data.vote_average.toFixed(1)
-        votes.appendChild(number)
-
-        this.card.appendChild(votes)
-    }
-
-    createInfoIcon()
-    {
-        let info = createIMG('../img/info.svg', 'info_icon')
-        info.onclick = ()=>{this.showInfo(this)}
-        this.card.appendChild(info)
-    }
-
-    showInfo(cardRef)
-    {
-        cardRef.poster.style.height = (cardRef.poster.style.height === '0px') ? '270px' : '0px'
-    }
-
-    getText()
-    {
-        return (this.type === 'movie' ? this.data.title : this.data.name) + this.getDate() 
-    }
-
-    getDate(data = this.data)
-    {
-        if(data.release_date !== undefined)
-        {
-            if(data.release_date.length > 0)
-            return ` (${data.release_date.substring(0,4)})`
-        }
-        if(data.first_air_date !== undefined) 
-        {
-            if(data.first_air_date.length > 0)
-            return ` (${data.first_air_date.substring(0,4)})`
-        }
-        return ''
-    }
-
     getPosterSRC()
     {
         if(this.type === 'person')
@@ -129,4 +120,24 @@ class Card
         }
         return (this.data.poster_path !== null) ? `https://image.tmdb.org/t/p/w500${this.data.poster_path}` : '../img/default_movie_poster.png'
     }
+
+    getText()
+    {
+        if(this.minimal) return '<i>'+(this.type === 'movie' ? this.data.title : this.data.name) + this.getDate() + '</i>' + 
+                '<br>(' + (this.data.character ? this.data.character : '?') + ')'
+        return (this.type === 'movie' ? this.data.title : this.data.name) + this.getDate() 
+    }
+
+    getTextTitle()
+    {
+        if(this.minimal) return (this.type === 'movie' ? this.data.title : this.data.name) + this.getDate() + 
+                ' - ' + (this.data.character ? this.data.character : '?')
+        return this.getText()
+    }
+
+    showInfo()
+    {
+        this.poster.style.height = (this.poster.style.height === '0px') ? '270px' : '0px'
+    }
+
 }

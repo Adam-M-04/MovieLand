@@ -44,14 +44,6 @@
     margin: 5px;
 }
 
-.DV_runtime {
-    font-size: 18px;
-    font-weight: 400;
-    padding: 5px;
-    margin: 10px;
-    margin-top: 15px;
-}
-
 .DV_genres {
     display: flex;
     flex-wrap: wrap;
@@ -119,19 +111,17 @@
     align-items: center;
     flex-wrap: wrap;
     margin: 10px;
+    width: 200px;
+    height: 69px;
 }
 
-.DV_backButton {
-    position: absolute;
-    top: -60px;
-    width: 80px;
-    height: 35px;
-    outline: none;
+.swiper-pagination-bullet {
     background-color: #FCA311;
-    border-radius: 50px;
-    border: 2px solid #E5E5E5;
-    cursor: pointer;
-    font-size: 18px;
+}
+
+.swiper-pagination {
+    position: relative;
+    top: 0px;
 }
 
 
@@ -161,7 +151,7 @@
 
     .DV_DETAILS{
         height: auto;
-        width: auto;
+        width: 100%;
     }
 
     .DV_mainDiv {
@@ -172,7 +162,12 @@
     }
 }
 
-@media (max-width: 699px){ 
+@media (max-width: 699px){
+
+    .DV_DETAILS {
+        margin-top: 40px;
+    }
+
     .DV_mainDiv {
         justify-content: center;
         max-height: 630px;

@@ -10,8 +10,26 @@ class MovieDetails
         this.DETAILS.appendChild(this.createMainDiv())
         this.DETAILS.appendChild(this.createMainText())
         this.DETAILS.appendChild(this.createSecondDiv())
+        this.createCastSlider()
+    }
 
-        DV_ref.contentDIV.appendChild(this.DETAILS)
+    createCastSlider()
+    {
+        let castElements = []
+
+        for(let person_data of this.data.credits.cast)
+        {
+            let person = new Card('person', person_data, this.DV_ref.contentRef, true)
+            castElements.push(person.card)
+        }
+
+        this.castSwiper = new Slider(castElements)
+
+        let text = document.createElement('h1')
+        text.innerText = 'Cast'
+
+        this.DETAILS.appendChild(text)
+        this.DETAILS.appendChild(this.castSwiper.container)
     }
 
     createMainDiv()
@@ -49,7 +67,7 @@ class MovieDetails
         let runtime = document.createElement('span')
         runtime.className = 'DV_runtime'
         runtime.innerText = `( ${this.data.runtime}  min )`
-        runtime.title = parseInt(this.data.runtime / 60) + 'h ' + (this.data.runtime % 60) + ' min'
+        runtime.title = parseInt(this.data.runtime / 60) + 'h ' + (this.data.runtime % 60) + 'min'
         text.appendChild(runtime)
 
         let genres = document.createElement('div')
@@ -91,4 +109,5 @@ class MovieDetails
 
         return secondDiv
     }
+
 }

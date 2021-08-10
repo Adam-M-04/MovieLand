@@ -25,24 +25,24 @@ class Menu
         this.menuSwitch = document.createElement("button");
         this.menuSwitch.id = "menuSwitch"
         this.menuSwitch.innerHTML = "<img src='../img/menu_arrows.svg' id='menu_arrows'>"
-        this.menuSwitch.onclick = ()=>{this.menuDown(this)}
+        this.menuSwitch.onclick = ()=>{this.menuDown()}
         document.body.appendChild(this.menu);
         document.body.appendChild(this.menuSwitch);
         $('#menu').animate({height: 'toggle'},0)
     }
 
-    menuDown(menu)
+    menuDown()
     {
         $('#menu').animate({height: 'toggle'},500, () => {
-            app.menu.menuSwitch.innerHTML = "<img src='../img/close.svg' id='menu_close'>"
+            this.menuSwitch.innerHTML = "<img src='../img/close.svg' id='menu_close'>"
         })
-        menu.menuSwitch.onclick = ()=>{this.menuUp(this)}
+        this.menuSwitch.onclick = ()=>{this.menuUp()}
     }
 
-    menuUp(menu){
+    menuUp(){
         $('#menu').animate({height: 'toggle'},500, () => {
-            app.menu.menuSwitch.innerHTML = "<img src='../img/menu_arrows.svg' id='menu_arrows'>"
+            this.menuSwitch.innerHTML = "<img src='../img/menu_arrows.svg' id='menu_arrows'>"
         })
-        menu.menuSwitch.onclick = ()=>{this.menuDown(this)}
+        this.menuSwitch.onclick = ()=>{this.menuDown()}
     }
 }

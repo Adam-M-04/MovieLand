@@ -9,40 +9,24 @@ class Detailed_view
         
         if(type === 'movie')
         {
-            fetch_data(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`, 'movie', this)
+            fetch_data(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=credits`, this, 'movie')
         }
         if(type === 'tv')
         {
-            fetch_data(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}`, 'tv', this)
+            fetch_data(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&append_to_response=credits`, this, 'tv')
         }
         if(type === 'person')
         {
-            fetch_data(`https://api.themoviedb.org/3/person/${id}?api_key=${apiKey}`, 'person', this)
+            fetch_data(`https://api.themoviedb.org/3/person/${id}?api_key=${apiKey}&append_to_response=combined_credits`, this, 'person')
         }
     }
 
-    createBackButton()
+    createGenre(text)
     {
-        this.backButton = document.createElement('button')
-        this.backButton.className = 'DV_backButton'
-        this.backButton.onclick = ()=>{this.contentRef.Back(this.contentRef)}
-        this.backButton.innerText = 'Back'
-        this.contentDIV.appendChild(this.backButton)
-    }
-
-    setResult(data, type)
-    {
-        this.data = data;
-        this.contentDIV.innerHTML = ''
-        this.showResult()
-        this.createBackButton()
-    }
-
-    showResult()
-    {
-        if(this.type === 'movie') this.details = new MovieDetails(this, this.data)
-        if(this.type === 'tv') this.details = new TvDetails(this, this.data)
-        if(this.type === 'person') this.details = new PersonDetails(this, this.data)
+        let genre = document.createElement('span')
+        genre.className = 'DV_genre'
+        genre.innerText = text
+        return genre
     }
 
     createProductionCountries(countries)
@@ -70,12 +54,13 @@ class Detailed_view
         return production_countries
     }
 
-    createGenre(text)
+    setResult(data, type)
     {
-        let genre = document.createElement('span')
-        genre.className = 'DV_genre'
-        genre.innerText = text
-        return genre
+        this.data = data;
+        if(this.type === 'movie') this.details = new MovieDetails(this, this.data)
+        if(this.type === 'tv') this.details = new TvDetails(this, this.data)
+        if(this.type === 'person') this.details = new PersonDetails(this, this.data)
+        this.showResult()
     }
 
     showMessage(message)
@@ -83,5 +68,10 @@ class Detailed_view
         this.contentRef.showMessage(message)
     }
 
-    // TV SHOW
+    showResult()
+    {
+        this.contentDIV.innerHTML = ''
+        this.contentDIV.appendChild(this.details.DETAILS)
+    }
+
 }

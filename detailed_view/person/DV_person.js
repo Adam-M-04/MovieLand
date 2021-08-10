@@ -9,8 +9,25 @@ class PersonDetails
         this.DETAILS.className = 'DV_DETAILS'
         this.DETAILS.appendChild(this.createMainDiv())
         this.DETAILS.appendChild(this.createMainText())
+        this.createCreditsSlider()
+    }
 
-        DV_ref.contentDIV.appendChild(this.DETAILS)
+    createCreditsSlider()
+    {
+        let creditsElements = []
+        for(let credit_data of this.data.combined_credits.cast.sort((a,b)=>{return b.popularity - a.popularity}))
+        {
+            let credit = new Card(credit_data.media_type, credit_data, this.DV_ref.contentRef, true)
+            creditsElements.push(credit.card)
+        }
+
+        this.castSwiper = new Slider(creditsElements)
+
+        let text = document.createElement('h1')
+        text.innerText = 'Credits'
+
+        this.DETAILS.appendChild(text)
+        this.DETAILS.appendChild(this.castSwiper.container)
     }
 
     createMainDiv()

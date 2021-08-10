@@ -4,51 +4,16 @@ class Content
     constructor(app)
     {
         this.app = app
-        this.result = null;
+        this.result = new Search_result(null, null, null, this);
         this.contentDIV.id = 'content'
         document.body.appendChild(this.contentDIV)
-        this.contentQueue = []
         this.pages_selector = new Pages_selector(this)
-    }
-
-    setResult(data, option, resetPageSelector=true)
-    {
-        this.result = data
-        this.option = option
-        if(resetPageSelector) this.pages_selector.resetPagesSelector(data.total_pages)
-        else this.pages_selector.setPage(data.page)
-        this.showResult()
-    }
-
-    showResult()
-    {
-        this.contentDIV.innerHTML = ''
-        for(let elmnt of this.result.results)
-        {
-            let card = new Card(this.getType(elmnt), elmnt, app)
-            this.contentDIV.appendChild(card.card);
-        }
-        this.pages_selector.show()
-    }
-
-    showMessage(message)
-    {
-        this.contentDIV.innerHTML = message
-    }
-
-    showDetailedView(type, id)
-    {
-        if(this.contentQueue.length === 0)
-        {
-            this.app.mainInput.hide()
-        }
-        this.contentQueue.push(new Detailed_view(type, id, this))
-        $('html,body').scrollTop(0);
     }
 
     Back(content)
     {
         content.contentQueue.pop()
+        content.contentDIV.innerHTML = ''
         if(content.contentQueue.length > 0) content.contentQueue[content.contentQueue.length-1].showResult()
         else 
         {
@@ -59,17 +24,48 @@ class Content
 
     clear()
     {
-        this.result = null;
+        this.result.data = null;
         this.contentDIV.innerHTML = ''
         this.contentQueue = []
     }
 
     getType(data)
     {
-        if(this.option === 'multi')
+        if(this.result.option === 'multi')
         {
             return data.media_type
         }
-        return this.option
+        return this.result.option
+    }
+
+    setResult(data, option, search_phrase)
+    {
+        this.result = new Search_result(search_phrase, data, option, this)
+        this.app.history.push(this.result)
+        this.showResult()
+    }
+    
+    showDetailedView(type, id)
+    {
+        this.app.history.push(new Detailed_view(type, id, this))
+        $('html,body').scrollTop(0);
+    }
+    
+    showMessage(message)
+    {
+        this.contentDIV.innerHTML = message
+    }
+
+    showResult()
+    {
+        this.contentDIV.innerHTML = ''
+        for(let elmnt of this.result.data.results)
+        {
+            let card = new Card(this.getType(elmnt), elmnt, this)
+            this.contentDIV.appendChild(card.card);
+        }
+        this.pages_selector.setNumberOfPages(this.result.data.total_pages)
+        this.pages_selector.setPage(this.result.data.page)
+        this.pages_selector.show()
     }
 }

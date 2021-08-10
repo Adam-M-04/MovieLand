@@ -7,8 +7,20 @@ class Pages_selector
         this.numberOfPages = null;
         this.create()
         
-        this.current_query = null
-        this.current_option = null
+    }
+
+    buttonStyle(button, mode)
+    {
+        if(mode === 'show')
+        {
+            button.style.opacity = 1
+            button.style.cursor = 'pointer'
+        }
+        else
+        {
+            button.style.opacity = 0
+            button.style.cursor = 'default'
+        }
     }
 
     create()
@@ -34,17 +46,16 @@ class Pages_selector
             if(e.code==='Enter'|| e.key === 'Enter')
             {
                 this.inputWithCurrentPage.blur();                
-                this.search(this.getPage(parseInt(this.inputWithCurrentPage.value), this), this)
+                this.search(this.getPage(parseInt(this.inputWithCurrentPage.value)))
             }
         }
-        //this.inputWithCurrentPage.title = 
         this.container.appendChild(this.inputWithCurrentPage)
     }
 
     createNextButton()
     {
         this.nextButton = createIMG('../img/arrow.svg', 'PS_next')
-        this.nextButton.onclick = ()=>{this.search(this.getPage('increment', this), this)}
+        this.nextButton.onclick = ()=>{this.search(this.getPage('increment'))}
         this.nextButton.title = 'Go to the next page'
         this.container.appendChild(this.nextButton)
     }
@@ -52,58 +63,48 @@ class Pages_selector
     createPrevButton()
     {
         this.prevButton = createIMG('../img/arrow.svg', 'PS_prev')        
-        this.prevButton.onclick = ()=>{this.search(this.getPage('decrease', this), this)}
+        this.prevButton.onclick = ()=>{this.search(this.getPage('decrease'))}
         this.prevButton.title = 'Go to the previous page'
         this.container.appendChild(this.prevButton)
     }
 
-    search(page, ref)
-    {
-        if(page === null) return
-        ref.content_ref.contentDIV.innerHTML = 'Loading...'
-        fetch_data(`https://api.themoviedb.org/3/search/${ref.current_option}?api_key=${apiKey}&query=${ref.current_query}&page=${page}`,
-            ref.current_option, ref)
-    }
-
-    getPage(val, ref)
+    getPage(val)
     {
         if(val ==='increment') 
         {
-            if(ref.currentPage < ref.numberOfPages) return ref.currentPage + 1
+            if(this.currentPage < this.numberOfPages) return this.currentPage + 1
             else return null
         }
         else if(val === 'decrease')
         {
-            if(ref.currentPage > 1) return ref.currentPage - 1
+            if(this.currentPage > 1) return this.currentPage - 1
             else return null
         }
         else
         {
-            let page = parseInt(ref.inputWithCurrentPage.value)
+            let page = parseInt(this.inputWithCurrentPage.value)
             if(page < 1) return 1
-            if(page > ref.numberOfPages) return ref.numberOfPages
-            if(page !== ref.currentPage) return page
+            if(page > this.numberOfPages) return this.numberOfPages
+            if(page !== this.currentPage) return page
             return null
         }
     }
 
-    show()
+    search(page)
     {
-        this.inputWithCurrentPage.value = this.currentPage
-        this.content_ref.contentDIV.appendChild(this.container)
+        if(page === null) return
+        this.content_ref.contentDIV.innerHTML = 'Loading...'
+        let inputRef = this.content_ref.app.mainInput
+        inputRef.input.value = this.content_ref.result.query
+        inputRef.filter.changeOption(['movie', 'tv', 'person', 'multi'].indexOf(this.content_ref.result.option))
+        inputRef.search(this.content_ref.result.query, page)
     }
 
-    resetPagesSelector(no_pages)
+    setNumberOfPages(numOfPages)
     {
-        this.numberOfPages = no_pages
-        this.numberOfPagesSpan.innerText = '/ '+no_pages
-        this.inputWithCurrentPage.max = no_pages
-        this.setPage(1)
-    }
-
-    setResult(data, option)
-    {
-        this.content_ref.setResult(data, option, false)
+        this.numberOfPages = numOfPages
+        this.numberOfPagesSpan.innerText = '/ '+ numOfPages
+        this.inputWithCurrentPage.max = numOfPages
     }
 
     setPage(page)
@@ -128,18 +129,15 @@ class Pages_selector
         this.inputWithCurrentPage.value = page
     }
 
-    buttonStyle(button, mode)
+    setResult(data, option)
     {
-        if(mode === 'show')
-        {
-            button.style.opacity = 1
-            button.style.cursor = 'pointer'
-        }
-        else
-        {
-            button.style.opacity = 0
-            button.style.cursor = 'default'
-        }
+        this.content_ref.setResult(data, option, false)
+    }
+
+    show()
+    {
+        this.inputWithCurrentPage.value = this.currentPage
+        this.content_ref.contentDIV.appendChild(this.container)
     }
 
 }

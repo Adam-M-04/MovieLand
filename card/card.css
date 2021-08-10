@@ -42,7 +42,24 @@
     -webkit-box-orient: vertical;
 }
 
-.card_text:hover {
+.card_text_minimal {
+    width: 180px;
+    height: 65px;
+    position: absolute;
+    left: 0px;
+    bottom: 10px;
+    word-wrap: break-word;
+    overflow: hidden;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    font-size: 1.05em;
+    line-height: 21px;
+}
+
+.card_text:hover, .card_text_minimal:hover {
     text-decoration: underline;
     cursor: pointer;
 }

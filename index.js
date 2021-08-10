@@ -1,7 +1,10 @@
+
 class App
 {
     constructor()
     {
+		this.history = new History(this)
+
         this.menu = new Menu();
 
         this.mainInput = new Input(this)
@@ -14,6 +17,7 @@ class App
         this.content.clear()
         this.mainInput.input.value=''
         this.mainInput.show()
+		this.history.history = []
     }
 
 }

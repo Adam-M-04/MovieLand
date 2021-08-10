@@ -5,15 +5,24 @@ class Filter
         this.name = name
         this.options = options
         this.option = defOption
+        this.open = false
 
         this.create()
+    }
+
+    changeOption(new_id)
+    {
+        let prev_id = this.option
+        this.option = new_id
+        this.optionsContainerHTML[prev_id].className = this.getClassNames(prev_id)
+        this.optionsContainerHTML[new_id].className = this.getClassNames(new_id)
     }
 
     create()
     {
         this.filter = document.createElement('div')
         this.filter.className = 'filter'
-        this.filter.onclick = ()=>{this.toggle(this)}
+        this.filter.onclick = (e)=>{this.toggle(e);}
         this.filter.innerText = this.name
         this.createOptions()
     }
@@ -30,19 +39,12 @@ class Filter
             let option = document.createElement('div')
             option.className = this.getClassNames(i)
             option.innerText = this.options[i]
-            option.onclick = ()=>{this.changeOption(this, i)}
+            option.onclick = ()=>{this.changeOption(i)}
             this.optionsContainer.appendChild(option)
             this.optionsContainerHTML.push(option)
         }
         $(this.optionsContainer).slideToggle(0);
         this.filter.append(this.optionsContainer)
-    }
-
-    toggle(ref)
-    {
-        ref.filter.onclick = null
-        $(ref.optionsContainer).slideToggle(200);
-        ref.filter.onclick = ()=>{ref.toggle(ref)}
     }
 
     getClassNames(i)
@@ -51,12 +53,23 @@ class Filter
             (i === this.option ? ' filter_option_selected' : ' filter_option_not_selected')
     }
 
-    changeOption(ref,new_id)
+    toggle(e)
     {
-        let prev_id = ref.option
-        ref.option = new_id
-        ref.optionsContainerHTML[prev_id].className = ref.getClassNames(prev_id)
-        ref.optionsContainerHTML[new_id].className = ref.getClassNames(new_id)
+        e.stopPropagation()
+        this.filter.onclick = null
+        $(this.optionsContainer).slideToggle(200);
+        this.filter.onclick = (e)=>{this.toggle(e)}
+        this.open = !this.open
+        if(this.open)
+        {
+            document.body.onclick = (e)=>{
+                this.toggle(e)
+            }
+        }
+        else
+        {
+            document.body.onclick = null
+        }
     }
 
 }

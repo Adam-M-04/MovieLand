@@ -18,11 +18,11 @@
     height: 50px;
     border-radius: 50%;
     position: fixed;
-    top: 28px;
+    top: 20px;
     right: 20px;
     background-color: #FCA311;
+    border: 2px solid #E5E5E5;
     outline: none;
-    border: none;
     cursor: pointer;
     display: flex;
     justify-content: center;

@@ -80,6 +80,7 @@
     width: 50%;
     text-align: left;
     padding-left: 30px;
+    word-wrap: break-word;
 }
 
 .DV_moreInfo > span {

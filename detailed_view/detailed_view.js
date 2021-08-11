@@ -6,19 +6,36 @@ class Detailed_view
         this.type = type
         this.id = id
         this.contentDIV = contentRef.contentDIV
-        
+        this.contentDIV.innerHTML = 'Loading...'
         if(type === 'movie')
         {
-            fetch_data(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=credits`, this, 'movie')
+            fetch_data(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=credits,images`, this, 'movie')
         }
         if(type === 'tv')
         {
-            fetch_data(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&append_to_response=credits`, this, 'tv')
+            fetch_data(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&append_to_response=credits,images`, this, 'tv')
         }
         if(type === 'person')
         {
             fetch_data(`https://api.themoviedb.org/3/person/${id}?api_key=${apiKey}&append_to_response=combined_credits`, this, 'person')
         }
+    }
+
+    createBackdrop(ref, backdropDiv)
+    {
+        let slideshow = null
+        if(ref.data.images.backdrops.length > 1)
+        {
+            slideshow = new SlideShow(ref.data.images.backdrops, 'https://image.tmdb.org/t/p/original', backdropDiv)
+        }
+        else
+        {
+            let backdrop = null
+            if(ref.data.images.backdrops.length > 0) backdrop = createIMG('https://image.tmdb.org/t/p/original'+ref.data.images.backdrops[0].file_path,'DV_backdrop_img')
+            else backdrop = createIMG('../img/default_backdrop.png','DV_backdrop_img')
+            backdropDiv.appendChild(backdrop)
+        }
+        return slideshow
     }
 
     createGenre(text)
@@ -33,6 +50,12 @@ class Detailed_view
     {
         let production_countries = document.createElement('div')
         production_countries.className = 'DV_productionCountries'
+
+        let title = document.createElement('h3')
+        title.className = 'DV_production_countries_title'
+        title.innerText = "Production countries"
+        production_countries.appendChild(title)
+
         countries.map((country)=>{
             let elmnt = document.createElement('div')
             elmnt.className = 'DV_production_country'

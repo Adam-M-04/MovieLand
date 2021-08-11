@@ -21,6 +21,7 @@
     border-radius: 10px;
     margin-right: 20px;
     box-shadow: 5px 5px 10px #000, -5px -5px 10px #000, -5px 5px 10px #000, 5px -5px 10px #000;
+    position: relative;
 }
 
 .DV_backdrop {
@@ -30,6 +31,16 @@
     border-radius: 10px;
     filter: brightness(0.9);
     box-shadow: 5px 5px 10px #000, -5px -5px 10px #000, -5px 5px 10px #000, 5px -5px 10px #000;
+    position: relative;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+
+.DV_backdrop_img {
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    filter: brightness(0.9);
 }
 
 .DV_mainText {
@@ -117,8 +128,12 @@
     align-items: center;
     flex-wrap: wrap;
     margin: 10px;
-    width: 200px;
-    height: 69px;
+    width: 130px;
+    min-height: 69px;
+}
+
+.DV_production_countries_title {
+    width: 100%;
 }
 
 .swiper-pagination-bullet {
@@ -139,8 +154,8 @@
         width: 25%;
         height: auto;
         z-index: 2;
-        border: 1px solid #E5E5E5;
         border-radius: 20px;
+        border: 1px solid #E5E5E5;
         margin-right: 0px;
         box-shadow: none;
     }
@@ -151,8 +166,12 @@
         max-height:872px;
         width: 100%;
         height: auto;
-        filter: brightness(0.7);
+        filter: brightness(0.8);
         z-index: 1;
+    }
+
+    .DV_backdrop_img {
+        filter: brightness(0.8);
     }
 
     .DV_DETAILS{

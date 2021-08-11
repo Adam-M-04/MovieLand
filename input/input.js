@@ -90,7 +90,7 @@ class Input
         let option = this.getOption()
         if(search_phrase !== this.app.content.result.query || option !== this.app.content.result.option || page !== this.app.content.result.data.page){
             this.app.content.contentDIV.innerHTML = 'Loading...'
-            fetch_data(`https://api.themoviedb.org/3/search/${option}?api_key=${apiKey}&query=${encodeURIComponent(search_phrase)}&page=${page}&include_adult=true`, 
+            fetch_data(`https://api.themoviedb.org/3/search/${option}?api_key=${apiKey}&query=${encodeURIComponent(search_phrase)}&page=${page}`, 
                  this.app.content, option, search_phrase)
         }
     }

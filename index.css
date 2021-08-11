@@ -58,6 +58,7 @@ footer {
     cursor: pointer;
     font-size: 18px;
     transition: left .1s;
+    z-index: 10;
 }
 
 .backButton:active {

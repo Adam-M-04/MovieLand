@@ -9,7 +9,7 @@ class PersonDetails
         this.DETAILS.className = 'DV_DETAILS'
         this.DETAILS.appendChild(this.createMainDiv())
         this.DETAILS.appendChild(this.createMainText())
-        this.createCreditsSlider()
+        if(data.credits.combined_credits.length > 0) this.createCreditsSlider()
     }
 
     createCreditsSlider()

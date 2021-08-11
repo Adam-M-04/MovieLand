@@ -10,7 +10,8 @@ class MovieDetails
         this.DETAILS.appendChild(this.createMainDiv())
         this.DETAILS.appendChild(this.createMainText())
         this.DETAILS.appendChild(this.createSecondDiv())
-        this.createCastSlider()
+        if(data.credits.cast.length > 0) this.createCastSlider()
+
     }
 
     createCastSlider()
@@ -38,14 +39,14 @@ class MovieDetails
             (this.data.poster_path !== null) ? `https://image.tmdb.org/t/p/w500${this.data.poster_path}` : '../img/default_movie_poster.png',
             'DV_poster')
 
-        let backdrop = createIMG(
-            (this.data.backdrop_path !== null) ? `https://image.tmdb.org/t/p/original${this.data.backdrop_path}` : '../img/default_backdrop.png',
-            'DV_backdrop')
+        let backdropDiv = document.createElement('div')
+        backdropDiv.className = 'DV_backdrop'
+        this.backdropSlideshow = this.DV_ref.createBackdrop(this, backdropDiv)
 
         let MainDiv = document.createElement('div')
         MainDiv.className = 'DV_mainDiv'
         MainDiv.appendChild(poster)
-        MainDiv.appendChild(backdrop)
+        MainDiv.appendChild(backdropDiv)
         return MainDiv
     }
 

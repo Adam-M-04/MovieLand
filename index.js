@@ -18,6 +18,7 @@ class App
         this.mainInput.input.value=''
         this.mainInput.show()
 		this.history.history = []
+		this.history.backButton.remove()
     }
 
 }
@@ -49,12 +50,12 @@ if(window.history && history.pushState){ // check for history api support
 }
 
 window.addEventListener('next', function(e){
-                e.preventDefault()
-    			console.log('forward button clicked');
-    		}, false);
+	e.preventDefault()
+	console.log('forward button clicked');
+}, false);
     
-    		window.addEventListener('previous', function(e){
-                e.preventDefault()
-    			console.log('back button clicked');
-    }, false);
+window.addEventListener('previous', function(e){
+	e.preventDefault()
+	console.log('back button clicked');
+}, false);
 */

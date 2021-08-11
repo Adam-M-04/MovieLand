@@ -78,23 +78,22 @@ class TvDetails
     {
         let description = document.createElement('div')
         description.className = 'DV_description'
-        description.innerHTML = `<b>Overview:</b><br> ${this.data.overview !== null ? this.data.overview : 'No description for this movie'}`
+        description.innerHTML = `<b>Overview:</b><br> ${this.data.overview ? this.data.overview : 'No description for this movie'}`
 
         let moreInfo = document.createElement('div')
         moreInfo.className = 'DV_moreInfo'
         
-        //let budget = this.data.budget == 0 ? '?' : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(this.data.budget)
-        //let revenue = this.data.revenue == 0 ? '?' : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(this.data.revenue)
+        let br = '<div style="flex-basis: 100%;height: 4px;"></div>'
         let homepage = (this.data.homepage === null || this.data.homepage === '') ? '' : 
-            `<span>Homepage: </span><a href='${this.data.homepage}' target='_blank'>${this.data.homepage}</a><br>`
+            `<span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Homepage: </span><a href='${this.data.homepage}' target='_blank'>${this.data.homepage}</a></span>`
         
         moreInfo.innerHTML = 
-           `<span>Status:</span> ${this.data.status}<br>
-            <span>First episode air date:</span> ${(this.data.first_air_date !== null && this.data.first_air_date.length > 0 ? this.data.first_air_date : '?')}<br>
-            <span>Last episode air date:</span> ${(this.data.last_air_date !== null && this.data.last_air_date.length > 0 ? this.data.last_air_date : '?')}<br>
-            <span>Number of seasons: </span>${this.data.number_of_seasons}<br>
-            <span>Number of episodes: </span>${this.data.number_of_episodes}<br>
-            <span>Languages: </span> <l>${(this.data.spoken_languages.length > 0 ) ? this.data.spoken_languages.map((lang)=>{return ' '+lang.name}) : '?'}</l><br>
+           `<span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Status:</span> ${this.data.status}</span>${br}
+           <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>First episode air date:</span> ${(this.data.first_air_date !== null && this.data.first_air_date.length > 0 ? this.data.first_air_date : '?')}</span>${br}
+           <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Last episode air date:</span> ${(this.data.last_air_date !== null && this.data.last_air_date.length > 0 ? this.data.last_air_date : '?')}</span>${br}
+           <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Number of seasons: </span>${this.data.number_of_seasons}</span>${br}
+           <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Number of episodes: </span>${this.data.number_of_episodes}</span>${br}
+           <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Languages: </span> <l>${(this.data.spoken_languages.length > 0 ) ? this.data.spoken_languages.map((lang)=>{return ' '+lang.name}) : '?'}</l></span>${br}
             ${homepage}`
 
         let secondDiv = document.createElement('div')

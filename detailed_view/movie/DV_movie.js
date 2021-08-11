@@ -84,22 +84,24 @@ class MovieDetails
     {
         let description = document.createElement('div')
         description.className = 'DV_description'
-        description.innerHTML = `<b>Overview:</b><br> ${this.data.overview !== null ? this.data.overview : 'No description for this movie'}`
+        description.innerHTML = `<b>Overview:</b><br> ${this.data.overview ? this.data.overview : 'No description for this movie'}`
 
         let moreInfo = document.createElement('div')
         moreInfo.className = 'DV_moreInfo'
+
+        let br = '<div style="flex-basis: 100%;height: 4px;"></div>'
         
         let budget = this.data.budget == 0 ? '?' : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(this.data.budget)
         let revenue = this.data.revenue == 0 ? '?' : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(this.data.revenue)
         let homepage = (this.data.homepage === null || this.data.homepage === '') ? '' : 
-            `<span>Homepage: </span><a href='${this.data.homepage}' target='_blank'>${this.data.homepage}</a><br>`        
+            `<span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Homepage: </span><a href='${this.data.homepage}' target='_blank'>${this.data.homepage}</a></span>`        
 
         moreInfo.innerHTML = 
-           `<span>Status:</span> ${this.data.status}<br>
-            <span>Release date:</span> ${this.data.release_date !== null && this.data.release_date.length > 0 ? this.data.release_date : '?'}<br>
-            <span>Budget:</span> ${budget}<br>
-            <span>Revenue: </span>${revenue}<br>
-            <span>Languages: </span> <l>${(this.data.spoken_languages.length > 0 ) ? this.data.spoken_languages.map((lang)=>{return ' '+lang.name}) : '?'}</l><br>
+           `<span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Status:</span> ${this.data.status}</span>${br}
+            <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Release date:</span> ${this.data.release_date !== null && this.data.release_date.length > 0 ? this.data.release_date : '?'}</span>${br}
+            <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Budget:</span> ${budget}</span>${br}
+            <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Revenue: </span>${revenue}</span>${br}
+            <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Languages: </span> <l>${(this.data.spoken_languages.length > 0 ) ? this.data.spoken_languages.map((lang)=>{return ' '+lang.name}) : '?'}</l></span>${br}
             ${homepage}`
 
         let secondDiv = document.createElement('div')

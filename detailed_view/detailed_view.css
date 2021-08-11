@@ -80,22 +80,27 @@
     width: 50%;
     text-align: left;
     padding-left: 30px;
-    word-wrap: break-word;
 }
 
-.DV_moreInfo > span {
+.DV_moreInfo_title {
     padding-right: 20px;
     font-weight: 500;
     color: #ffffff;
     line-height: 1.5em;
 }
 
-.DV_moreInfo > a {
+.DV_moreInfo a {
     color: #FCA311;
+    word-wrap: break-word;
+    overflow:hidden
 }
 
-.DV_moreInfo > l {
+.DV_moreInfo l {
     word-wrap: break-word;
+}
+
+.DV_moreInfo_row:hover {
+    text-decoration: underline;
 }
 
 .DV_productionCountries {
@@ -208,13 +213,16 @@
     .DV_moreInfo {
         width: 100%;
         padding: 10px;
+
+    }
+
+    
+
+    .DV_moreInfo_row{
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
     }
-
-    .DV_moreInfo > * {
-        min-width: 35%;
-    }
+    
 
 }

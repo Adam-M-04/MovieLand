@@ -37,6 +37,7 @@ class Card
     {
         this.poster = createIMG(this.getPosterSRC(), 'poster')
         this.poster.onclick = ()=>{this.contentRef.showDetailedView(this.type, this.data.id)}
+        this.poster.onerror = ()=>{this.poster.onerror = null; this.poster.src = '../img/default_person.svg'}
         this.card.appendChild(this.poster)
     }
 
@@ -124,14 +125,14 @@ class Card
     getText()
     {
         if(this.minimal) return '<i>'+(this.type === 'movie' ? this.data.title : this.data.name) + this.getDate() + '</i>' + 
-                '<br>(' + (this.data.character ? this.data.character : '?') + ')'
+                '<br>(' + (this.data.character ? this.data.character : (this.data.job ? this.data.job : '?')) + ')'
         return (this.type === 'movie' ? this.data.title : this.data.name) + this.getDate() 
     }
 
     getTextTitle()
     {
         if(this.minimal) return (this.type === 'movie' ? this.data.title : this.data.name) + this.getDate() + 
-                ' - ' + (this.data.character ? this.data.character : '?')
+                ' - ' + (this.data.character ? this.data.character : (this.data.job ? this.data.job : '?'))
         return this.getText()
     }
 

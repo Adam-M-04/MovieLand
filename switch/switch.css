@@ -1,0 +1,39 @@
+.switch_container {
+    width: 200px;
+    height: 40px;
+    margin-left: calc(50% - 100px);
+    margin-top: 20px;
+    background-color: #E5E5E5;
+    color: #14213D;
+    padding: 5px;
+    font-size: 20px;
+    font-weight: 500;
+    border-radius: 40px;
+    position: relative;
+}
+
+.switch_option {
+    width: 100px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 40px;
+    position: absolute;
+    top: 5px;
+    cursor: pointer;
+}
+
+.switch_selector {
+    width: 100px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 40px;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background-color: #14213D;
+    transition: left .5s;
+}

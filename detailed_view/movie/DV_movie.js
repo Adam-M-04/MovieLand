@@ -10,34 +10,45 @@ class MovieDetails
         this.DETAILS.appendChild(this.createMainDiv())
         this.DETAILS.appendChild(this.createMainText())
         this.DETAILS.appendChild(this.createSecondDiv())
-        if(data.credits.cast.length > 0) this.createCastSlider()
-
+        if(data.credits.cast.length > 0 && data.credits.crew.length > 0) this.createCastAndCrewSlider()
+        else 
+        {
+            if(data.credits.cast.length > 0) this.DETAILS.appendChild(this.createCastOrCrewSlider(data.credits.cast).container)
+            if(data.credits.crew.length > 0) this.DETAILS.appendChild(this.createCastOrCrewSlider(data.credits.crew).container)
+        }
     }
 
-    createCastSlider()
+    createCastAndCrewSlider()
     {
-        let castElements = []
+        this.cast_crew_switch = new SwitchButton(['Cast', 'Crew'], this.switch_cast_crew, this)
+ 
+        this.castSwiper = this.createCastOrCrewSlider(this.data.credits.cast)
 
-        for(let person_data of this.data.credits.cast)
+        this.crewSwiper = this.createCastOrCrewSlider(this.data.credits.crew)
+
+        this.DETAILS.appendChild(this.cast_crew_switch.container)
+        this.DETAILS.appendChild(this.castSwiper.container)
+    }
+
+    createCastOrCrewSlider(data)
+    {
+        let Elements = []
+
+        for(let person_data of data)
         {
             let person = new Card('person', person_data, this.DV_ref.contentRef, true)
-            castElements.push(person.card)
+            Elements.push(person.card)
         }
 
-        this.castSwiper = new Slider(castElements)
-
-        let text = document.createElement('h1')
-        text.innerText = 'Cast'
-
-        this.DETAILS.appendChild(text)
-        this.DETAILS.appendChild(this.castSwiper.container)
+        return new Slider(Elements)
     }
 
     createMainDiv()
     {
         let poster = createIMG(
-            (this.data.poster_path !== null) ? `https://image.tmdb.org/t/p/w500${this.data.poster_path}` : '../img/default_movie_poster.png',
+            (this.data.poster_path !== null) ? `https://image.tmdb.org/t/p/w500${this.data.poster_path}` : '/img/default_movie_poster.png',
             'DV_poster')
+        poster.onerror = ()=>{poster.onerror = null; poster.src = '/img/default_movie_poster.png'}
 
         let backdropDiv = document.createElement('div')
         backdropDiv.className = 'DV_backdrop'
@@ -111,6 +122,22 @@ class MovieDetails
         secondDiv.appendChild(moreInfo)
 
         return secondDiv
+    }
+
+    switch_cast_crew(ref)
+    {
+        if(ref.cast_crew_switch.current)
+        {
+            ref.castSwiper.container.remove()
+            ref.DETAILS.appendChild(ref.crewSwiper.container)
+            ref.crewSwiper.swiper.update()
+        }
+        else
+        {
+            ref.crewSwiper.container.remove()
+            ref.DETAILS.appendChild(ref.castSwiper.container)
+            ref.crewSwiper.swiper.update()
+        }
     }
 
 }

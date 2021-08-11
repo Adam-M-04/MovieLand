@@ -33,8 +33,9 @@ class PersonDetails
     createMainDiv()
     {
         let profilePhoto = createIMG(
-            (this.data.profile_path !== null) ? `https://image.tmdb.org/t/p/original${this.data.profile_path}` : '../img/default_person.svg',
+            (this.data.profile_path !== null) ? `https://image.tmdb.org/t/p/original${this.data.profile_path}` : '/img/default_person.svg',
             'DV_profile_img')
+        profilePhoto.onerror = ()=>{profilePhoto.onerror = null; profilePhoto.src = '/img/default_person.svg'}
 
         let MainDiv = document.createElement('div')
         MainDiv.className = 'DV_profilePhotoContainer'

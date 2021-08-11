@@ -30,15 +30,11 @@ class Slider
             grabCursor: true,
             roundLengths: true,
             slidesPerView: 'auto',
-            centeredSlides: true,
             pagination: {
                 el: this.pagination,
-                type: 'fraction'
+                type: 'progressbar'
             },
-            scrollbar: {
-                el: this.scrollbar
-            },
-            observeParents: true,
+            observeParents: true
         });
     }
 }

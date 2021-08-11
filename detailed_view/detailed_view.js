@@ -26,12 +26,16 @@ class Detailed_view
         let slideshow = null
         if(ref.data.images.backdrops.length > 1)
         {
-            slideshow = new SlideShow(ref.data.images.backdrops, 'https://image.tmdb.org/t/p/original', backdropDiv)
+            slideshow = new SlideShow(ref.data.images.backdrops, 'https://image.tmdb.org/t/p/original', backdropDiv, this.contentRef.app.history)
         }
         else
         {
             let backdrop = null
-            if(ref.data.images.backdrops.length > 0) backdrop = createIMG('https://image.tmdb.org/t/p/original'+ref.data.images.backdrops[0].file_path,'DV_backdrop_img')
+            if(ref.data.images.backdrops.length > 0)
+            {
+                backdrop = createIMG('https://image.tmdb.org/t/p/original'+ref.data.images.backdrops[0].file_path,'DV_backdrop_img') 
+                backdrop.onerror = ()=>{backdrop.onerror = null; backdrop.src = '../img/default_backdrop.png'}
+            }
             else backdrop = createIMG('../img/default_backdrop.png','DV_backdrop_img')
             backdropDiv.appendChild(backdrop)
         }
@@ -50,6 +54,7 @@ class Detailed_view
     {
         let production_countries = document.createElement('div')
         production_countries.className = 'DV_productionCountries'
+        if(countries.length === 0) return production_countries
 
         let title = document.createElement('h3')
         title.className = 'DV_production_countries_title'
@@ -61,6 +66,7 @@ class Detailed_view
             elmnt.className = 'DV_production_country'
             
             let img = createIMG(`https://www.countryflags.io/${country.iso_3166_1.toLowerCase()}/shiny/48.png`,'DV_production_country_flag' )
+            img.alt = 'flag not found'
             elmnt.appendChild(img)
 
             let forceBreak = document.createElement('div')
@@ -95,6 +101,7 @@ class Detailed_view
     {
         this.contentDIV.innerHTML = ''
         this.contentDIV.appendChild(this.details.DETAILS)
+        if(this.details.backdropSlideshow) this.details.backdropSlideshow.start()
     }
 
 }

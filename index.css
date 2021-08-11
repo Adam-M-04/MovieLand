@@ -78,6 +78,10 @@ footer {
     transform: rotate(-30deg);
 }
 
+.swiper-pagination-progressbar-fill {
+    background-color: #FCA311 !important;
+}
+
 @media (max-width: 500px){
     #logo {
         content: url('img/icon.png');

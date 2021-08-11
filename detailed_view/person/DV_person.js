@@ -9,25 +9,48 @@ class PersonDetails
         this.DETAILS.className = 'DV_DETAILS'
         this.DETAILS.appendChild(this.createMainDiv())
         this.DETAILS.appendChild(this.createMainText())
-        if(data.combined_credits.cast.length > 0) this.createCreditsSlider()
+        if(data.combined_credits.cast.length > 0 && data.combined_credits.crew.length > 0) this.createCastAndCrewSlider()
+        else 
+        {
+            let text = document.createElement('h2')
+            if(data.combined_credits.cast.length > 0)
+            {
+                text.innerText = 'Cast'
+                this.DETAILS.appendChild(text)
+                this.DETAILS.appendChild(this.createCastOrCrewSlider(data.combined_credits.cast).container)
+            } 
+            if(data.combined_credits.crew.length > 0)
+            {
+                text.innerText = 'Crew'
+                this.DETAILS.appendChild(text)
+                this.DETAILS.appendChild(this.createCastOrCrewSlider(data.combined_credits.crew).container)
+            } 
+        }
     }
 
-    createCreditsSlider()
+    createCastAndCrewSlider()
     {
-        let creditsElements = []
-        for(let credit_data of this.data.combined_credits.cast.sort((a,b)=>{return b.popularity - a.popularity}))
+        this.cast_crew_switch = new SwitchButton(['Cast', 'Crew'], this.switch_cast_crew, this)
+ 
+        this.castSwiper = this.createCastOrCrewSlider(this.data.combined_credits.cast.sort((a,b)=>{return b.popularity - a.popularity}))
+
+        this.crewSwiper = this.createCastOrCrewSlider(this.data.combined_credits.crew)
+
+        this.DETAILS.appendChild(this.cast_crew_switch.container)
+        this.DETAILS.appendChild(this.castSwiper.container)
+    }
+
+    createCastOrCrewSlider(data)
+    {
+        let Elements = []
+
+        for(let person_data of data)
         {
-            let credit = new Card(credit_data.media_type, credit_data, this.DV_ref.contentRef, true)
-            creditsElements.push(credit.card)
+            let person = new Card(person_data.media_type, person_data, this.DV_ref.contentRef, true)
+            Elements.push(person.card)
         }
 
-        this.castSwiper = new Slider(creditsElements)
-
-        let text = document.createElement('h1')
-        text.innerText = 'Credits'
-
-        this.DETAILS.appendChild(text)
-        this.DETAILS.appendChild(this.castSwiper.container)
+        return new Slider(Elements)
     }
 
     createMainDiv()
@@ -82,6 +105,22 @@ class PersonDetails
         }
         birthday.title = `Place of birth: ${this.data.place_of_birth ? this.data.place_of_birth : ' ? '}\nDate of birth: ${this.data.birthday ? this.data.birthday : ' ? '}`
         return birthday
+    }
+
+    switch_cast_crew(ref)
+    {
+        if(ref.cast_crew_switch.current)
+        {
+            ref.castSwiper.container.remove()
+            ref.DETAILS.appendChild(ref.crewSwiper.container)
+            ref.crewSwiper.swiper.update()
+        }
+        else
+        {
+            ref.crewSwiper.container.remove()
+            ref.DETAILS.appendChild(ref.castSwiper.container)
+            ref.crewSwiper.swiper.update()
+        }
     }
     
 }

@@ -13,8 +13,19 @@ class TvDetails
         if(data.credits.cast.length > 0 && data.credits.crew.length > 0) this.createCastAndCrewSlider()
         else 
         {
-            if(data.credits.cast.length > 0) this.DETAILS.appendChild(this.createCastOrCrewSlider(data.credits.cast).container)
-            if(data.credits.crew.length > 0) this.DETAILS.appendChild(this.createCastOrCrewSlider(data.credits.crew).container)
+            let text = document.createElement('h2')
+            if(data.credits.cast.length > 0)
+            {
+                text.innerText = 'Cast'
+                this.DETAILS.appendChild(text)
+                this.DETAILS.appendChild(this.createCastOrCrewSlider(data.credits.cast).container)
+            } 
+            if(data.credits.crew.length > 0)
+            {
+                text.innerText = 'Crew'
+                this.DETAILS.appendChild(text)
+                this.DETAILS.appendChild(this.createCastOrCrewSlider(data.credits.crew).container)
+            } 
         }
     }
 

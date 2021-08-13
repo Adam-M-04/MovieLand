@@ -10,7 +10,10 @@ class TvDetails
         this.DETAILS.appendChild(this.createMainDiv())
         this.DETAILS.appendChild(this.createMainText())
         this.DETAILS.appendChild(this.createSecondDiv())
-        if(data.credits.cast.length > 0 && data.credits.crew.length > 0) this.createCastAndCrewSlider()
+        if(data.credits.cast.length > 0 && data.credits.crew.length > 0)
+        {
+            this.DETAILS.appendChild(createSlidersWithSwitcher([this.data.credits.cast, this.data.credits.crew],['person','person'],['Cast', 'Crew'], true))
+        }
         else 
         {
             let text = document.createElement('h2')
@@ -18,40 +21,15 @@ class TvDetails
             {
                 text.innerText = 'Cast'
                 this.DETAILS.appendChild(text)
-                this.DETAILS.appendChild(this.createCastOrCrewSlider(data.credits.cast).container)
+                this.DETAILS.appendChild(createSlider(data.credits.cast, 'person', this.DV_ref.contentRef, true).container)
             } 
             if(data.credits.crew.length > 0)
             {
                 text.innerText = 'Crew'
                 this.DETAILS.appendChild(text)
-                this.DETAILS.appendChild(this.createCastOrCrewSlider(data.credits.crew).container)
+                this.DETAILS.appendChild(createSlider(data.credits.crew, 'person', this.DV_ref.contentRef, true).container)
             } 
         }
-    }
-
-    createCastAndCrewSlider()
-    {
-        this.cast_crew_switch = new SwitchButton(['Cast', 'Crew'], this.switch_cast_crew, this)
- 
-        this.castSwiper = this.createCastOrCrewSlider(this.data.credits.cast)
-
-        this.crewSwiper = this.createCastOrCrewSlider(this.data.credits.crew)
-
-        this.DETAILS.appendChild(this.cast_crew_switch.container)
-        this.DETAILS.appendChild(this.castSwiper.container)
-    }
-
-    createCastOrCrewSlider(data)
-    {
-        let Elements = []
-
-        for(let person_data of data)
-        {
-            let person = new Card('person', person_data, this.DV_ref.contentRef, true)
-            Elements.push(person.card)
-        }
-
-        return new Slider(Elements)
     }
 
     createMainDiv()
@@ -125,22 +103,6 @@ class TvDetails
         secondDiv.appendChild(moreInfo)
 
         return secondDiv
-    }
-
-    switch_cast_crew(ref)
-    {
-        if(ref.cast_crew_switch.current)
-        {
-            ref.castSwiper.container.remove()
-            ref.DETAILS.appendChild(ref.crewSwiper.container)
-            ref.crewSwiper.swiper.update()
-        }
-        else
-        {
-            ref.crewSwiper.container.remove()
-            ref.DETAILS.appendChild(ref.castSwiper.container)
-            ref.crewSwiper.swiper.update()
-        }
     }
 
 }

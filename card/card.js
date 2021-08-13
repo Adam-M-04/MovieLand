@@ -3,7 +3,8 @@ class Card
     constructor(type, data, contentRef, minimal = false)
     {
         this.contentRef = contentRef
-        this.type = type;
+        if(type === 'multi') this.type = data.media_type
+        else this.type = type;
         this.data = data;
         this.minimal = minimal
 

@@ -7,26 +7,8 @@ class Content
         this.result = new Search_result(null, null, null, this);
         this.contentDIV.id = 'content'
         document.body.appendChild(this.contentDIV)
+        //this.homepage = new Homepage(app)
         this.pages_selector = new Pages_selector(this)
-    }
-
-    Back(content)
-    {
-        content.contentQueue.pop()
-        content.contentDIV.innerHTML = ''
-        if(content.contentQueue.length > 0) content.contentQueue[content.contentQueue.length-1].showResult()
-        else 
-        {
-            content.app.mainInput.show()
-            content.showResult()
-        }
-    }
-
-    clear()
-    {
-        this.result.data = null;
-        this.contentDIV.innerHTML = ''
-        this.contentQueue = []
     }
 
     getType(data)
@@ -40,7 +22,7 @@ class Content
 
     setResult(data, option, search_phrase)
     {
-        this.result = new Search_result(search_phrase, data, option, this)
+        this.result = new Search_result(search_phrase.search_phrase, data, option, this)
         this.app.history.push(this.result)
         this.showResult()
     }

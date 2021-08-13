@@ -9,19 +9,25 @@ class PersonDetails
         this.DETAILS.className = 'DV_DETAILS'
         this.DETAILS.appendChild(this.createMainDiv())
         this.DETAILS.appendChild(this.createMainText())
-        if(data.combined_credits.cast.length > 0 && data.combined_credits.crew.length > 0) this.createCastAndCrewSlider()
+        if(data.combined_credits.cast.length > 0 && data.combined_credits.crew.length > 0)
+        {
+            let text = document.createElement('h2')
+            text.innerHTML = "Credits"
+            this.DETAILS.appendChild(text)
+            this.DETAILS.appendChild(createSlidersWithSwitcher([this.data.combined_credits.cast.sort((a,b)=>{return b.popularity - a.popularity}),
+                this.data.combined_credits.crew],['multi','multi'],['Cast', 'Crew'], true))
+        }
         else 
         {
             let text = document.createElement('h2')
+            text.innerText = 'Credits'
             if(data.combined_credits.cast.length > 0)
             {
-                text.innerText = 'Cast'
                 this.DETAILS.appendChild(text)
                 this.DETAILS.appendChild(this.createCastOrCrewSlider(data.combined_credits.cast).container)
             } 
             if(data.combined_credits.crew.length > 0)
             {
-                text.innerText = 'Crew'
                 this.DETAILS.appendChild(text)
                 this.DETAILS.appendChild(this.createCastOrCrewSlider(data.combined_credits.crew).container)
             } 

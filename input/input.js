@@ -87,11 +87,19 @@ class Input
 
     search(search_phrase, page = 1)
     {
+        if(search_phrase.length === 0)
+        {
+            this.input.placeholder = 'Type any character'
+            setTimeout(() => {
+                this.input.placeholder = 'Search'
+            }, 5000);
+            return
+        }
         let option = this.getOption()
         if(search_phrase !== this.app.content.result.query || option !== this.app.content.result.option || page !== this.app.content.result.data.page){
             this.app.content.contentDIV.innerHTML = 'Loading...'
             fetch_data(`https://api.themoviedb.org/3/search/${option}?api_key=${apiKey}&query=${encodeURIComponent(search_phrase)}&page=${page}`, 
-                 this.app.content, option, search_phrase)
+                 this.app.content, option, {'search_phrase':search_phrase, 'fetch_name': null})
         }
     }
   

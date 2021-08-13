@@ -43,6 +43,7 @@ footer {
     flex-wrap: wrap;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     order: 10;
+    margin-top: 40px;
 }
 
 .backButton {

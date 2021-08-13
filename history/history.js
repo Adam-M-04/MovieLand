@@ -14,16 +14,16 @@ class History
         if(this.history.length === 0)
         {
             this.backButton.remove()
-            this.appRef.content.contentDIV.innerHTML = ''
             this.appRef.mainInput.input.value = ''
             this.appRef.mainInput.show()
+            this.appRef.content.homepage.showResult()
         }
         else
         {
             let currentElement = this.history[this.history.length-1]
             currentElement.showResult()
-            if(currentElement instanceof Search_result) this.appRef.mainInput.show()
-            else this.appRef.mainInput.hide()
+            //if(currentElement instanceof Search_result) this.appRef.mainInput.show()
+            //else this.appRef.mainInput.hide()
         }
     }
 

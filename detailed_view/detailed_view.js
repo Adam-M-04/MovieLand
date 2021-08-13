@@ -100,6 +100,7 @@ class Detailed_view
     showResult()
     {
         this.contentDIV.innerHTML = ''
+        this.contentRef.app.mainInput.hide()
         this.contentDIV.appendChild(this.details.DETAILS)
         if(this.details.backdropSlideshow) this.details.backdropSlideshow.start()
     }

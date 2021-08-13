@@ -1,8 +1,12 @@
 .switch_container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.switch_innercontainer {
     width: 200px;
     height: 40px;
-    margin-left: calc(50% - 100px);
-    margin-top: 20px;
     background-color: #E5E5E5;
     color: #14213D;
     padding: 5px;

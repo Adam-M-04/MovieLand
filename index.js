@@ -14,7 +14,7 @@ class App
 
     go_home()
     {
-        this.content.clear()
+		this.content.homepage.showResult()
         this.mainInput.input.value=''
         this.mainInput.show()
 		this.history.history = []
@@ -24,6 +24,7 @@ class App
 }
 
 app = new App()
+app.content.homepage = new Homepage(app)
 /* https://gist.github.com/tobytailor/1164818/a325bcd4b6da72fe5116a5619e7276e6f47e1925
 if(window.history && history.pushState){ // check for history api support
 	window.addEventListener('load', function(){

@@ -176,7 +176,7 @@
 
     .DV_DETAILS{
         height: auto;
-        width: 100%;
+        width: 95%;
     }
 
     .DV_mainDiv {
@@ -229,13 +229,15 @@
         margin-bottom: 40px;
     }
 
+    .DV_description b {
+        margin-left: calc(50% - 42.35px);
+        margin-right: calc(50% - 42.35px);
+    }
+
     .DV_moreInfo {
         width: 100%;
         padding: 10px;
-
     }
-
-    
 
     .DV_moreInfo_row{
         display: flex;

@@ -13,6 +13,7 @@ class Search_result
         this.contentRef.result = this
         this.contentRef.app.mainInput.input.value = this.query
         this.contentRef.app.mainInput.filter.changeOption(['movie', 'tv', 'person', 'multi'].indexOf(this.option))
+        this.contentRef.app.mainInput.show()
         this.contentRef.showResult()
     }
 

@@ -1,6 +1,6 @@
 class SwitchButton 
 {
-    constructor(options, functionToExecute, ref)
+    constructor(options, functionToExecute)
     {
         this.options = options
         this.current = 0
@@ -9,6 +9,10 @@ class SwitchButton
         this.container = document.createElement('div')
         this.container.className = 'switch_container'
 
+        this.innercontainer = document.createElement('div')
+        this.innercontainer.className = 'switch_innercontainer'
+        this.container.appendChild(this.innercontainer)
+
         for(let i in options)
         {
             i = parseInt(i)
@@ -16,13 +20,13 @@ class SwitchButton
             this.elements[i].innerText = options[i]
             this.elements[i].className = 'switch_option'
             this.elements[i].style.left = 5 + i * 100 + 'px'
-            this.elements[i].onclick = ()=>{this.change(i); functionToExecute(ref)}
-            this.container.appendChild(this.elements[i])
+            this.elements[i].onclick = ()=>{this.change(i); functionToExecute()}
+            this.innercontainer.appendChild(this.elements[i])
         }
 
         this.selector = document.createElement('span')
         this.selector.className = 'switch_selector'
-        this.container.prepend(this.selector)
+        this.innercontainer.prepend(this.selector)
     }
 
     change(option)

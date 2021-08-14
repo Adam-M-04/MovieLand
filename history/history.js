@@ -22,8 +22,6 @@ class History
         {
             let currentElement = this.history[this.history.length-1]
             currentElement.showResult()
-            //if(currentElement instanceof Search_result) this.appRef.mainInput.show()
-            //else this.appRef.mainInput.hide()
         }
     }
 

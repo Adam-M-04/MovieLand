@@ -71,6 +71,32 @@
     margin-bottom: 20px;
 }
 
+.DV_voteContainer {
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    margin-top: 10px;
+}
+
+.DV_voteContainer img {
+    margin-right: 5px;
+}
+
+.DV_voteContainer_tv {
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.DV_voteContainer_tv img {
+    margin-right: 5px;
+}
+
 .DV_secondDiv {
     width: 100% - 40px;
     padding: 20px;
@@ -144,7 +170,6 @@
     position: relative;
     top: 0px;
 }
-
 
 @media (max-width: 1640px) and (min-width: 700px){
     .DV_poster {

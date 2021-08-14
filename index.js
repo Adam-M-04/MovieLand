@@ -5,7 +5,7 @@ class App
     {
 		this.history = new History(this)
 
-        this.menu = new Menu();
+        this.menu = new Menu(this);
 
         this.mainInput = new Input(this)
 
@@ -19,6 +19,7 @@ class App
         this.mainInput.show()
 		this.history.history = []
 		this.history.backButton.remove()
+		$('html,body').scrollTop(0);
     }
 
 }

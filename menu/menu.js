@@ -1,18 +1,30 @@
 class Menu
 {
-    constructor()
+    constructor(appRef)
     {
         this.menu = document.createElement("div");
         this.menu.id = "menu";
+
+        this.menuElementsTitles = [
+            'Home','Movies', 'TV Shows', 'People'
+        ]
+
+        this.menuElementsFunctions = [
+            ()=>{appRef.go_home(); this.menuUp()},
+            ()=>{},
+            ()=>{},
+            ()=>{}
+        ]
 
         let titlesContainer = document.createElement('div')
         titlesContainer.id = 'titlesContainer'
         this.menu.appendChild(titlesContainer)
         
 
-        for(let elmnt of menuElementsTitles){
+        for(let i in this.menuElementsTitles){
             let tmpElmnt = document.createElement('h2');
-            tmpElmnt.innerText = elmnt;
+            tmpElmnt.innerText = this.menuElementsTitles[i];
+            tmpElmnt.onclick = this.menuElementsFunctions[i]
             tmpElmnt.className = 'menuElement'
             titlesContainer.appendChild(tmpElmnt);
 

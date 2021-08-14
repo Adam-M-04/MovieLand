@@ -69,6 +69,7 @@ class MovieDetails
         runtime.className = 'DV_runtime'
         runtime.innerText = `( ${this.data.runtime}  min )`
         runtime.title = parseInt(this.data.runtime / 60) + 'h ' + (this.data.runtime % 60) + 'min'
+        runtime.appendChild(createVoteContainer(this.data.vote_count, this.data.vote_average, 'DV_voteContainer', true))
         text.appendChild(runtime)
 
         let genres = document.createElement('div')
@@ -94,16 +95,13 @@ class MovieDetails
         
         let budget = this.data.budget == 0 ? '?' : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(this.data.budget)
         let revenue = this.data.revenue == 0 ? '?' : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(this.data.revenue)
-        let homepage = (this.data.homepage === null || this.data.homepage === '') ? '' : 
-            `<span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Homepage: </span><a href='${this.data.homepage}' target='_blank'>${this.data.homepage}</a></span>`        
 
         moreInfo.innerHTML = 
            `<span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Status:</span> ${this.data.status}</span>${br}
             <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Release date:</span> ${this.data.release_date !== null && this.data.release_date.length > 0 ? this.data.release_date : '?'}</span>${br}
             <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Budget:</span> ${budget}</span>${br}
             <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Revenue: </span>${revenue}</span>${br}
-            <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Languages: </span> <l>${(this.data.spoken_languages.length > 0 ) ? this.data.spoken_languages.map((lang)=>{return ' '+lang.name}) : '?'}</l></span>${br}
-            ${homepage}`
+            <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Languages: </span> <l>${(this.data.spoken_languages.length > 0 ) ? this.data.spoken_languages.map((lang)=>{return ' '+lang.name}) : '?'}</l></span>${br}`
 
         let secondDiv = document.createElement('div')
         secondDiv.className = 'DV_secondDiv'

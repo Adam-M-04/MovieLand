@@ -13,7 +13,7 @@ class Card
         if(!minimal) this.createDescription()
         this.createPoster()
         this.createText()
-        if(type !== 'person' && !minimal) this.createVoteContainer()
+        if(type !== 'person' && !minimal) this.card.appendChild(createVoteContainer(this.data.vote_count, this.data.vote_average))
         if(!minimal) this.createInfoIcon()
         
     }
@@ -123,17 +123,36 @@ class Card
         return (this.data.poster_path !== null) ? `https://image.tmdb.org/t/p/w500${this.data.poster_path}` : '../img/default_movie_poster.png'
     }
 
+    getRole()
+    {
+        if(this.data.character) return this.data.character
+        if(this.data.job) return this.data.job
+        if(this.data.roles) return this.getRoleArrayToString(this.data.roles, 'character') + 
+            (this.data.total_episode_count ? ` - <i>${this.data.total_episode_count} episodes</i>` : '')
+        if(this.data.jobs) return this.getRoleArrayToString(this.data.jobs, 'job')
+        return '?'
+    }
+
+    getRoleArrayToString(arr, name)
+    {
+        let returnVal = ''
+        for(let i in arr)
+        {
+            returnVal += arr[i][name] + (i < arr.length-1 ? ', ' : '')
+        }
+        return returnVal ? returnVal : '?'
+    }
+
     getText()
     {
-        if(this.minimal) return '<i>'+(this.type === 'movie' ? this.data.title : this.data.name) + this.getDate() + '</i>' + 
-                '<br>(' + (this.data.character ? this.data.character : (this.data.job ? this.data.job : '?')) + ')'
-        return (this.type === 'movie' ? this.data.title : this.data.name) + this.getDate() 
+        if(this.minimal) 
+            return '<b>'+(this.type === 'movie' ? this.data.title : this.data.name) + this.getDate() + '</b>' + '<br>(' + this.getRole() + ')'
+        return (this.type === 'movie' ? this.data.title : this.data.name) + this.getDate()
     }
 
     getTextTitle()
     {
-        if(this.minimal) return (this.type === 'movie' ? this.data.title : this.data.name) + this.getDate() + 
-                ' - ' + (this.data.character ? this.data.character : (this.data.job ? this.data.job : '?'))
+        if(this.minimal) return (this.type === 'movie' ? this.data.title : this.data.name) + this.getDate() + ' - ' + this.getRole().replace(/<\/?[^>]+(>|$)/g, "")
         return this.getText()
     }
 

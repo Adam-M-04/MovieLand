@@ -13,8 +13,3 @@ const genresShow =
 }
 
 const apiKey = "9ba94503fe7fd740edcc25bb83ec7f3a"
-
-const menuElementsTitles = 
-[
-    'Home','Movies', 'TV Shows', 'People'
-]

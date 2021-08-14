@@ -10,24 +10,24 @@ class TvDetails
         this.DETAILS.appendChild(this.createMainDiv())
         this.DETAILS.appendChild(this.createMainText())
         this.DETAILS.appendChild(this.createSecondDiv())
-        if(data.credits.cast.length > 0 && data.credits.crew.length > 0)
+        if(data.aggregate_credits.cast.length > 0 && data.aggregate_credits.crew.length > 0)
         {
-            this.DETAILS.appendChild(createSlidersWithSwitcher([this.data.credits.cast, this.data.credits.crew],['person','person'],['Cast', 'Crew'], true))
+            this.DETAILS.appendChild(createSlidersWithSwitcher([this.data.aggregate_credits.cast, this.data.aggregate_credits.crew],['person','person'],['Cast', 'Crew'], true))
         }
         else 
         {
             let text = document.createElement('h2')
-            if(data.credits.cast.length > 0)
+            if(data.aggregate_credits.cast.length > 0)
             {
                 text.innerText = 'Cast'
                 this.DETAILS.appendChild(text)
-                this.DETAILS.appendChild(createSlider(data.credits.cast, 'person', this.DV_ref.contentRef, true).container)
+                this.DETAILS.appendChild(createSlider(data.aggregate_credits.cast, 'person', this.DV_ref.contentRef, true).container)
             } 
-            if(data.credits.crew.length > 0)
+            if(data.aggregate_credits.crew.length > 0)
             {
                 text.innerText = 'Crew'
                 this.DETAILS.appendChild(text)
-                this.DETAILS.appendChild(createSlider(data.credits.crew, 'person', this.DV_ref.contentRef, true).container)
+                this.DETAILS.appendChild(createSlider(data.aggregate_credits.crew, 'person', this.DV_ref.contentRef, true).container)
             } 
         }
     }
@@ -63,6 +63,7 @@ class TvDetails
         let tagline = document.createElement('h3')
         tagline.className = 'DV_tagline'
         tagline.innerHTML = this.data.tagline
+        tagline.appendChild(createVoteContainer(this.data.vote_count, this.data.vote_average, 'DV_voteContainer_tv', true))
         text.appendChild(tagline)
 
         let genres = document.createElement('div')
@@ -85,8 +86,6 @@ class TvDetails
         moreInfo.className = 'DV_moreInfo'
         
         let br = '<div style="flex-basis: 100%;height: 4px;"></div>'
-        let homepage = (this.data.homepage === null || this.data.homepage === '') ? '' : 
-            `<span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Homepage: </span><a href='${this.data.homepage}' target='_blank'>${this.data.homepage}</a></span>`
         
         moreInfo.innerHTML = 
            `<span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Status:</span> ${this.data.status}</span>${br}
@@ -94,8 +93,7 @@ class TvDetails
            <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Last episode air date:</span> ${(this.data.last_air_date !== null && this.data.last_air_date.length > 0 ? this.data.last_air_date : '?')}</span>${br}
            <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Number of seasons: </span>${this.data.number_of_seasons}</span>${br}
            <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Number of episodes: </span>${this.data.number_of_episodes}</span>${br}
-           <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Languages: </span> <l>${(this.data.spoken_languages.length > 0 ) ? this.data.spoken_languages.map((lang)=>{return ' '+lang.name}) : '?'}</l></span>${br}
-            ${homepage}`
+           <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Languages: </span> <l>${(this.data.spoken_languages.length > 0 ) ? this.data.spoken_languages.map((lang)=>{return ' '+lang.name}) : '?'}</l></span>${br}`
 
         let secondDiv = document.createElement('div')
         secondDiv.className = 'DV_secondDiv'

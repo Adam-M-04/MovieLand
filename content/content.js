@@ -7,7 +7,6 @@ class Content
         this.result = new Search_result(null, null, null, this);
         this.contentDIV.id = 'content'
         document.body.appendChild(this.contentDIV)
-        //this.homepage = new Homepage(app)
         this.pages_selector = new Pages_selector(this)
     }
 

@@ -13,7 +13,7 @@ class Detailed_view
         }
         if(type === 'tv')
         {
-            fetch_data(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&append_to_response=credits,images`, this, 'tv')
+            fetch_data(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&append_to_response=aggregate_credits,images`, this, 'tv')
         }
         if(type === 'person')
         {

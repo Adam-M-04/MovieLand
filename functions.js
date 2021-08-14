@@ -38,6 +38,22 @@ function createSlider(data, type, objRef, minimalView = false)
     return new Slider(Elements)
 }
 
+function createVoteContainer(vote_count, vote_average, className = 'voteContainer', detailed = false){
+    let votes = document.createElement('div')
+    votes.className = className
+    if(!detailed) votes.title = `Votes: ${vote_count} | average: ${vote_average.toFixed(1)}/10`
+
+    let star = createIMG('../img/star.svg', 'votes_star')
+    votes.appendChild(star)
+
+    let number = document.createElement('span')
+    number.innerText = vote_average.toFixed(1)
+    if(detailed) number.innerText += '/10 (' + vote_count + ' votes)'
+    votes.appendChild(number)
+
+    return votes
+}
+
 function switchSliders(swiper1, swiper2, container, switcher)
 {
     if(switcher.current)

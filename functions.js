@@ -1,5 +1,17 @@
+function createHeader(header_text)
+{
+    let span = document.createElement('span')
+    span.innerText = header_text
+    span.className = 'decorated_header'
+
+    let text = document.createElement('h2')
+    text.className = 'decorated_header_container'
+    text.appendChild(span)
+    return text
+}
+
 // Function that creates HTMLElement img, set image source and className, and return this object
-function createIMG(/*string: relative source of the image*/src, /*string: the name of the image class*/classname)
+function createIMG(/*string: source of the image*/src, /*string: the name of the image class*/classname)
 {
     let img = document.createElement('img')
     img.setAttribute('src', src)
@@ -31,8 +43,8 @@ function createSlider(data, type, objRef, minimalView = false)
 
     for(let elmnt of data)
     {
-        let person = new Card(type, elmnt, objRef, minimalView)
-        Elements.push(person.card)
+        let card = new Card(type, elmnt, objRef, minimalView)
+        Elements.push(card.card)
     }
 
     return new Slider(Elements)

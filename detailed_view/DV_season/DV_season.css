@@ -1,0 +1,42 @@
+.DV_DETAILS_season {
+    max-width: 1560px;
+    width: 100%;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.DV_season_img {
+    max-width: 500px;
+    height: auto;
+    width: calc(100% - 20px);
+    margin: 10px;
+    border-radius: 20px;
+    border: 2px solid #E5E5E5;
+}
+
+.DV_name_of_season {
+    font-size: 40px;
+    font-weight: 500;
+    margin-bottom: 0px;
+}
+
+.DV_season_overview {
+    font-size: 22px;
+    font-weight: 300;
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 50px;
+}
+
+.DV_birthday {
+    font-size: 24px;
+}
+
+@media (max-width: 699px){
+    .DV_season_overview {
+        text-align: justify;
+        font-size: 24px;
+    }
+
+}

@@ -13,7 +13,7 @@ class Card
         if(!minimal) this.createDescription()
         this.createPoster()
         this.createText()
-        if(type !== 'person' && !minimal) this.card.appendChild(createVoteContainer(this.data.vote_count, this.data.vote_average))
+        if((type === 'movie' || type === 'tv') && !minimal) this.card.appendChild(createVoteContainer(this.data.vote_count, this.data.vote_average))
         if(!minimal) this.createInfoIcon()
         
     }
@@ -37,8 +37,8 @@ class Card
     createPoster()
     {
         this.poster = createIMG(this.getPosterSRC(), 'poster')
-        this.poster.onclick = ()=>{this.contentRef.showDetailedView(this.type, this.data.id)}
-        this.poster.onerror = ()=>{this.poster.onerror = null; this.poster.src = '../img/default_person.svg'}
+        this.poster.onclick = ()=>{this.showDetailedView()}
+        this.poster.onerror = ()=>{this.poster.onerror = null; this.poster.src = `../img/default_${this.type === 'person' ? 'person.svg' : 'movie_poster.png'}`}
         this.card.appendChild(this.poster)
     }
 
@@ -48,7 +48,7 @@ class Card
         text.className = this.minimal ? 'card_text_minimal' : 'card_text'
         text.innerHTML = this.getText()
         text.title = this.getTextTitle()
-        text.onclick = ()=>{this.contentRef.showDetailedView(this.type, this.data.id)}
+        text.onclick = ()=>{this.showDetailedView()}
         this.card.appendChild(text)
     }
 
@@ -101,6 +101,10 @@ class Card
             }
             return toReturn
         }
+        if(this.type === 'season')
+        {
+            return `<b>Air date: ${this.data.air_date}</b><br> ${this.data.overview}`
+        }
     }
 
     getGenres(arr, genres)
@@ -128,7 +132,7 @@ class Card
         if(this.data.character) return this.data.character
         if(this.data.job) return this.data.job
         if(this.data.roles) return this.getRoleArrayToString(this.data.roles, 'character') + 
-            (this.data.total_episode_count ? ` - <i>${this.data.total_episode_count} episodes</i>` : '')
+            (this.data.total_episode_count ? ` - <i>${this.data.total_episode_count} episode${this.data.total_episode_count>1?'s':''}</i>` : '')
         if(this.data.jobs) return this.getRoleArrayToString(this.data.jobs, 'job')
         return '?'
     }
@@ -147,18 +151,26 @@ class Card
     {
         if(this.minimal) 
             return '<b>'+(this.type === 'movie' ? this.data.title : this.data.name) + this.getDate() + '</b>' + '<br>(' + this.getRole() + ')'
+        if(this.type === 'season') return this.data.name + '<br>Episodes: ' + this.data.episode_count
         return (this.type === 'movie' ? this.data.title : this.data.name) + this.getDate()
     }
 
     getTextTitle()
     {
         if(this.minimal) return (this.type === 'movie' ? this.data.title : this.data.name) + this.getDate() + ' - ' + this.getRole().replace(/<\/?[^>]+(>|$)/g, "")
+        if(this.type === 'season') return this.data.name + ' (' + this.data.episode_count + ` episode${this.data.episode_count>1?'s':''})`
         return this.getText()
     }
 
     showInfo()
     {
         this.poster.style.height = (this.poster.style.height === '0px') ? '270px' : '0px'
+    }
+
+    showDetailedView()
+    {
+        if(this.type === 'season') this.contentRef.showDetailedView(this.type, this.data.tv_id, this.data.season_number)
+        else this.contentRef.showDetailedView(this.type, this.data.id, this.data.season_number)
     }
 
 }

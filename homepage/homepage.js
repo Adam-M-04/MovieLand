@@ -23,10 +23,7 @@ class Homepage
     createResultContainer(data, types, names, title)
     {
         let popularContainer = createSlidersWithSwitcher(data, types, names)
-
-        let text = document.createElement('h2')
-        text.innerHTML = '<br>'+title
-        popularContainer.prepend(text)
+        popularContainer.prepend(createHeader(title))
         return popularContainer
     }
     

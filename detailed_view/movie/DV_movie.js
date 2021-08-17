@@ -5,30 +5,38 @@ class MovieDetails
         this.DV_ref = DV_ref
         this.data = data
 
+        this.swipers = []
+
         this.DETAILS = document.createElement('div')
         this.DETAILS.className = 'DV_DETAILS'
         this.DETAILS.appendChild(this.createMainDiv())
         this.DETAILS.appendChild(this.createMainText())
         this.DETAILS.appendChild(this.createSecondDiv())
+
         if(data.credits.cast.length > 0 && data.credits.crew.length > 0)
         {
             this.DETAILS.appendChild(createSlidersWithSwitcher([this.data.credits.cast, this.data.credits.crew],['person','person'],['Cast', 'Crew'], true))
         }
         else 
         {
-            let text = document.createElement('h2')
             if(data.credits.cast.length > 0)
             {
-                text.innerText = 'Cast'
-                this.DETAILS.appendChild(text)
-                this.DETAILS.appendChild(createSlider(data.credits.cast, 'person', this.DV_ref.contentRef, true).container)
+                this.DETAILS.appendChild(createHeader('Cast'))
+                this.swipers.push(createSlider(data.credits.cast, 'person', this.DV_ref.contentRef, true))
+                this.DETAILS.appendChild(this.swipers[this.swipers.length-1].container)
             } 
             if(data.credits.crew.length > 0)
             {
-                text.innerText = 'Crew'
-                this.DETAILS.appendChild(text)
-                this.DETAILS.appendChild(createSlider(data.credits.crew, 'person', this.DV_ref.contentRef, true).container)
+                this.DETAILS.appendChild(createHeader('Crew'))
+                this.swipers.push(createSlider(data.credits.crew, 'person', this.DV_ref.contentRef, true))
+                this.DETAILS.appendChild(this.swipers[this.swipers.length-1].container)
             } 
+        }
+        if(data.recommendations.results.length)
+        {
+            this.DETAILS.appendChild(createHeader('More similar'))
+            this.swipers.push(createSlider(data.recommendations.results, 'movie', this.DV_ref.contentRef))
+            this.DETAILS.appendChild(this.swipers[this.swipers.length-1].container)
         }
     }
 

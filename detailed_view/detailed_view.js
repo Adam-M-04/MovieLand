@@ -1,6 +1,6 @@
 class Detailed_view
 {
-    constructor(type, id, contentRef)
+    constructor(type, id, contentRef,season_number = null)
     {
         this.contentRef = contentRef
         this.type = type
@@ -9,15 +9,19 @@ class Detailed_view
         this.contentDIV.innerHTML = 'Loading...'
         if(type === 'movie')
         {
-            fetch_data(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=credits,images`, this, 'movie')
+            fetch_data(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=credits,images,recommendations`, this, 'movie')
         }
         if(type === 'tv')
         {
-            fetch_data(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&append_to_response=aggregate_credits,images`, this, 'tv')
+            fetch_data(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&append_to_response=aggregate_credits,images,recommendations`, this, 'tv')
         }
         if(type === 'person')
         {
             fetch_data(`https://api.themoviedb.org/3/person/${id}?api_key=${apiKey}&append_to_response=combined_credits`, this, 'person')
+        }
+        if(type === 'season')
+        {
+            fetch_data(`https://api.themoviedb.org/3/tv/${id}/season/${season_number}?api_key=${apiKey}&append_to_response=aggregate_credits`, this, 'season')
         }
     }
 
@@ -89,6 +93,7 @@ class Detailed_view
         if(this.type === 'movie') this.details = new MovieDetails(this, this.data)
         if(this.type === 'tv') this.details = new TvDetails(this, this.data)
         if(this.type === 'person') this.details = new PersonDetails(this, this.data)
+        if(this.type === 'season') this.details = new SeasonDetails(this, this.data)
         this.showResult()
     }
 
@@ -102,6 +107,8 @@ class Detailed_view
         this.contentDIV.innerHTML = ''
         this.contentRef.app.mainInput.hide()
         this.contentDIV.appendChild(this.details.DETAILS)
+        
+        for(let swiper of this.details.swipers) swiper.swiper.update()
         if(this.details.backdropSlideshow) this.details.backdropSlideshow.start()
     }
 

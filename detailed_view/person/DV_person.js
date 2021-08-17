@@ -5,45 +5,34 @@ class PersonDetails
         this.DV_ref = DV_ref
         this.data = data
 
+        this.swipers = []
+
         this.DETAILS = document.createElement('div')
-        this.DETAILS.className = 'DV_DETAILS'
+        this.DETAILS.className = 'DV_DETAILS_person'
         this.DETAILS.appendChild(this.createMainDiv())
-        this.DETAILS.appendChild(this.createMainText())
+        this.DETAILS.appendChild(this.getBirth())
+        
         if(data.combined_credits.cast.length > 0 && data.combined_credits.crew.length > 0)
         {
-            let text = document.createElement('h2')
-            text.innerHTML = "Credits"
-            this.DETAILS.appendChild(text)
             this.DETAILS.appendChild(createSlidersWithSwitcher([this.data.combined_credits.cast.sort((a,b)=>{return b.popularity - a.popularity}),
-                this.data.combined_credits.crew],['multi','multi'],['Cast', 'Crew'], true))
+            this.data.combined_credits.crew],['multi','multi'],['Cast', 'Crew'], true))
         }
         else 
         {
-            let text = document.createElement('h2')
-            text.innerText = 'Credits'
             if(data.combined_credits.cast.length > 0)
             {
-                this.DETAILS.appendChild(text)
-                this.DETAILS.appendChild(this.createCastOrCrewSlider(data.combined_credits.cast).container)
+                this.DETAILS.appendChild(createHeader('Cast'))
+                this.swipers.push(createSlider(this.data.combined_credits.cast.sort((a,b)=>{return b.popularity - a.popularity}),
+                     'multi', this.DV_ref.contentRef, true))
+                this.DETAILS.appendChild(this.swipers[this.swipers.length-1].container)
             } 
             if(data.combined_credits.crew.length > 0)
             {
-                this.DETAILS.appendChild(text)
-                this.DETAILS.appendChild(this.createCastOrCrewSlider(data.combined_credits.crew).container)
+                this.DETAILS.appendChild(createHeader('Crew'))
+                this.swipers.push(createSlider(data.combined_credits.crew, 'multi', this.DV_ref.contentRef, true))
+                this.DETAILS.appendChild(this.swipers[this.swipers.length-1].container)
             } 
         }
-    }
-
-    createCastAndCrewSlider()
-    {
-        this.cast_crew_switch = new SwitchButton(['Cast', 'Crew'], this.switch_cast_crew, this)
- 
-        this.castSwiper = this.createCastOrCrewSlider(this.data.combined_credits.cast.sort((a,b)=>{return b.popularity - a.popularity}))
-
-        this.crewSwiper = this.createCastOrCrewSlider(this.data.combined_credits.crew)
-
-        this.DETAILS.appendChild(this.cast_crew_switch.container)
-        this.DETAILS.appendChild(this.castSwiper.container)
     }
 
     createCastOrCrewSlider(data)
@@ -66,35 +55,29 @@ class PersonDetails
             'DV_profile_img')
         profilePhoto.onerror = ()=>{profilePhoto.onerror = null; profilePhoto.src = '/img/default_person.svg'}
 
-        let MainDiv = document.createElement('div')
-        MainDiv.className = 'DV_profilePhotoContainer'
-        MainDiv.appendChild(profilePhoto)
-        return MainDiv
-    }
+        let text = document.createElement('span')
+        text.className = 'DV_main_text_person'
 
-    createMainText()
-    {
-        let text = document.createElement('div')
-        text.className = 'DV_mainText'
-
-        let name = document.createElement('h2')
-        name.className = 'DV_name'
+        let name = document.createElement('span')
+        name.className = 'DV_name_of_person'
         name.innerHTML = this.data.name
-        text.appendChild(name)
 
+        text.appendChild(name)
         if(this.data.biography) text.appendChild(this.getBiography())
 
-        text.appendChild(this.getBirth())
+        let MainDiv = document.createElement('div')
+        MainDiv.className = 'DV_main_div_person'
+        MainDiv.appendChild(profilePhoto)
+        MainDiv.appendChild(text)
 
-        return text
+        return MainDiv
     }
 
     getBiography()
     {
-        let biography = document.createElement('h4')
+        let biography = document.createElement('span')
         biography.className = 'DV_biography'
-        biography.innerHTML = this.data.biography
-        if(this.data.biography.length > 250) biography.style.textAlign = 'justify'
+        biography.innerHTML = '<br>' + this.data.biography
         return biography
     }
 
@@ -112,21 +95,4 @@ class PersonDetails
         birthday.title = `Place of birth: ${this.data.place_of_birth ? this.data.place_of_birth : ' ? '}\nDate of birth: ${this.data.birthday ? this.data.birthday : ' ? '}`
         return birthday
     }
-
-    switch_cast_crew(ref)
-    {
-        if(ref.cast_crew_switch.current)
-        {
-            ref.castSwiper.container.remove()
-            ref.DETAILS.appendChild(ref.crewSwiper.container)
-            ref.crewSwiper.swiper.update()
-        }
-        else
-        {
-            ref.crewSwiper.container.remove()
-            ref.DETAILS.appendChild(ref.castSwiper.container)
-            ref.crewSwiper.swiper.update()
-        }
-    }
-    
 }

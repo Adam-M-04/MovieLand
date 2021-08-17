@@ -26,9 +26,9 @@ class Content
         this.showResult()
     }
     
-    showDetailedView(type, id)
+    showDetailedView(type, id, season_number)
     {
-        this.app.history.push(new Detailed_view(type, id, this))
+        this.app.history.push(new Detailed_view(type, id, this, season_number))
         $('html,body').scrollTop(0);
     }
     

@@ -222,8 +222,8 @@
         justify-content: center;
         max-height: 630px;
         height: auto;
-        width: calc(100% - 80px);
-        padding: 0px 40px 0px 40px;
+        width: calc(100% - 40px);
+        padding: 0px 20px 0px 20px;
     }
 
     .DV_poster {

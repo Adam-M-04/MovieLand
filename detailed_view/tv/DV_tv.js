@@ -10,25 +10,37 @@ class TvDetails
         this.DETAILS.appendChild(this.createMainDiv())
         this.DETAILS.appendChild(this.createMainText())
         this.DETAILS.appendChild(this.createSecondDiv())
+
+        for(let i in data.seasons) data.seasons[i].tv_id = data.id
+        this.DETAILS.appendChild(createHeader('Seasons'))
+        this.swipers = [createSlider(data.seasons[0].name === 'Specials' ? data.seasons.slice(1) : data.seasons, 
+            'season', this.DV_ref.contentRef)]
+        this.DETAILS.appendChild(this.swipers[0].container)
+
         if(data.aggregate_credits.cast.length > 0 && data.aggregate_credits.crew.length > 0)
         {
             this.DETAILS.appendChild(createSlidersWithSwitcher([this.data.aggregate_credits.cast, this.data.aggregate_credits.crew],['person','person'],['Cast', 'Crew'], true))
         }
         else 
         {
-            let text = document.createElement('h2')
             if(data.aggregate_credits.cast.length > 0)
             {
-                text.innerText = 'Cast'
-                this.DETAILS.appendChild(text)
-                this.DETAILS.appendChild(createSlider(data.aggregate_credits.cast, 'person', this.DV_ref.contentRef, true).container)
+                this.DETAILS.appendChild(createHeader('Cast'))
+                this.swipers.push(createSlider(data.aggregate_credits.cast, 'person', this.DV_ref.contentRef, true))
+                this.DETAILS.appendChild(this.swipers[this.swipers.length-1].container)
             } 
             if(data.aggregate_credits.crew.length > 0)
             {
-                text.innerText = 'Crew'
-                this.DETAILS.appendChild(text)
-                this.DETAILS.appendChild(createSlider(data.aggregate_credits.crew, 'person', this.DV_ref.contentRef, true).container)
+                this.DETAILS.appendChild(createHeader('Crew'))
+                this.swipers.push(createSlider(data.aggregate_credits.crew, 'person', this.DV_ref.contentRef, true))
+                this.DETAILS.appendChild(this.swipers[this.swipers.length-1].container)
             } 
+        }
+        if(data.recommendations.results.length)
+        {
+            this.DETAILS.appendChild(createHeader('More similar'))
+            this.swipers.push(createSlider(data.recommendations.results, 'tv', this.DV_ref.contentRef))
+            this.DETAILS.appendChild(this.swipers[this.swipers.length-1].container)
         }
     }
 
@@ -88,12 +100,13 @@ class TvDetails
         let br = '<div style="flex-basis: 100%;height: 4px;"></div>'
         
         moreInfo.innerHTML = 
-           `<span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Status:</span> ${this.data.status}</span>${br}
-           <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>First episode air date:</span> ${(this.data.first_air_date !== null && this.data.first_air_date.length > 0 ? this.data.first_air_date : '?')}</span>${br}
-           <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Last episode air date:</span> ${(this.data.last_air_date !== null && this.data.last_air_date.length > 0 ? this.data.last_air_date : '?')}</span>${br}
-           <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Number of seasons: </span>${this.data.number_of_seasons}</span>${br}
-           <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Number of episodes: </span>${this.data.number_of_episodes}</span>${br}
-           <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Languages: </span> <l>${(this.data.spoken_languages.length > 0 ) ? this.data.spoken_languages.map((lang)=>{return ' '+lang.name}) : '?'}</l></span>${br}`
+            `<span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Status:</span> ${this.data.status}</span>${br}
+            <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>First episode air date:</span> ${(this.data.first_air_date !== null && this.data.first_air_date.length > 0 ? this.data.first_air_date : '?')}</span>${br}
+            <span class='DV_moreInfo_row' title='Title: ${this.data.last_episode_to_air.name}\nDescription: ${this.data.last_episode_to_air.overview}'>
+                <span class='DV_moreInfo_title'>Last episode air date:</span> ${(this.data.last_air_date !== null && this.data.last_air_date.length > 0 ? this.data.last_air_date : '?')}</span>${br}
+            <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Number of seasons: </span>${this.data.number_of_seasons}</span>${br}
+            <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Number of episodes: </span>${this.data.number_of_episodes}</span>${br}
+            <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Languages: </span> <l>${(this.data.spoken_languages.length > 0 ) ? this.data.spoken_languages.map((lang)=>{return ' '+lang.name}) : '?'}</l></span>${br}`
 
         let secondDiv = document.createElement('div')
         secondDiv.className = 'DV_secondDiv'

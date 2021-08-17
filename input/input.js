@@ -62,6 +62,7 @@ class Input
         this.input.type = "text"
         this.input.maxLength = 50
         this.input.onkeydown = (e)=>{if(e.code==='Enter'|| e.key === 'Enter'){this.input.blur();this.search(this.input.value)}}
+        this.input.ondblclick = ()=>{this.input.value = ''}
     }
 
     getOption()

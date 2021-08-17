@@ -1,29 +1,36 @@
-.DV_profilePhotoContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-height: 540px;
+.DV_DETAILS_person {
+    max-width: 1560px;
     width: 100%;
-    height: auto;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .DV_profile_img {
-    max-height: 540px;
-    max-width: 360px;
-    width: 100%;
-    height: auto;
+    float: left;
+    clear: none;
+    height: 555px;
+    width: 370px;
     border-radius: 20px;
     border: 2px solid #E5E5E5;
+    margin-right: 20px;
 }
 
-.DV_name {
-    font-size: 30px;
+.DV_main_div_person {
+    min-height: 550px;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+.DV_name_of_person {
+    font-size: 40px;
+    font-weight: 500;
 }
 
 .DV_biography {
-    font-size: 20px;
-    text-align: center;
+    font-size: 22px;
     font-weight: 300;
+    text-align: justify;
 }
 
 .DV_birthday {
@@ -31,7 +38,36 @@
 }
 
 @media (max-width: 699px){
-    .DV_biography {
-        text-align: justify;
+    .DV_profile_img {
+        float: none;
+        clear: both;
+        max-width: 100%;
+        height: auto;
+        width: auto;
+        margin: 10px;
     }
+
+    .DV_main_div_person {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .DV_main_text_person {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .DV_name_of_person {
+        width: 100%;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .DV_biography {
+        width: 100%;
+    }
+
 }

@@ -107,6 +107,7 @@ class Detailed_view
         this.contentDIV.innerHTML = ''
         this.contentRef.app.mainInput.hide()
         this.contentDIV.appendChild(this.details.DETAILS)
+        if(this.details.swiper_to_update) this.details.swiper_to_update.swiper.update()
         
         for(let swiper of this.details.swipers) swiper.swiper.update()
         if(this.details.backdropSlideshow) this.details.backdropSlideshow.start()

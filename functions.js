@@ -19,12 +19,13 @@ function createIMG(/*string: source of the image*/src, /*string: the name of the
     return img;
 }
 
-function createSlidersWithSwitcher(data, types, switcherTitles, minimal = false)
+function createSlidersWithSwitcher(ref, data, types, switcherTitles, minimal = false)
 {
     let Container = document.createElement('div')
     Container.style.width = '100%'
 
     let Swiper1 = createSlider(data[0], types[0], app.content, minimal)
+    if(ref) ref.swiper_to_update = Swiper1
 
     let Swiper2 = createSlider(data[1], types[1], app.content, minimal)
 

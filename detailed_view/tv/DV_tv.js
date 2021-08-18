@@ -19,7 +19,7 @@ class TvDetails
 
         if(data.aggregate_credits.cast.length > 0 && data.aggregate_credits.crew.length > 0)
         {
-            this.DETAILS.appendChild(createSlidersWithSwitcher([this.data.aggregate_credits.cast, this.data.aggregate_credits.crew],['person','person'],['Cast', 'Crew'], true))
+            this.DETAILS.appendChild(createSlidersWithSwitcher(this, [this.data.aggregate_credits.cast, this.data.aggregate_credits.crew],['person','person'],['Cast', 'Crew'], true))
         }
         else 
         {

@@ -15,7 +15,7 @@ class MovieDetails
 
         if(data.credits.cast.length > 0 && data.credits.crew.length > 0)
         {
-            this.DETAILS.appendChild(createSlidersWithSwitcher([this.data.credits.cast, this.data.credits.crew],['person','person'],['Cast', 'Crew'], true))
+            this.DETAILS.appendChild(createSlidersWithSwitcher(this, [this.data.credits.cast, this.data.credits.crew],['person','person'],['Cast', 'Crew'], true))
         }
         else 
         {

@@ -1,5 +1,5 @@
 function fetch_data(url, objRef, type, more_options = {'search_phrase': null, 'fetch_name': null}){
-    fetch(url).then(res => {
+    fetch(url, {cache: 'default'}).then(res => {
         if(!res.ok)
         {
             throw Error('Could not get the data from the server');

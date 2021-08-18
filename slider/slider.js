@@ -30,6 +30,7 @@ class Slider
             grabCursor: true,
             roundLengths: true,
             slidesPerView: 'auto',
+            
             pagination: {
                 el: this.pagination,
                 type: 'progressbar'

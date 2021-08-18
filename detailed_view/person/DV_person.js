@@ -14,7 +14,8 @@ class PersonDetails
         
         if(data.combined_credits.cast.length > 0 && data.combined_credits.crew.length > 0)
         {
-            this.DETAILS.appendChild(createSlidersWithSwitcher([this.data.combined_credits.cast.sort((a,b)=>{return b.popularity - a.popularity}),
+            //let sliders = 
+            this.DETAILS.appendChild(createSlidersWithSwitcher(this, [this.data.combined_credits.cast.sort((a,b)=>{return b.popularity - a.popularity}),
             this.data.combined_credits.crew],['multi','multi'],['Cast', 'Crew'], true))
         }
         else 

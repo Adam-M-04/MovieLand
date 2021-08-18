@@ -22,7 +22,7 @@ class Homepage
 
     createResultContainer(data, types, names, title)
     {
-        let popularContainer = createSlidersWithSwitcher(data, types, names)
+        let popularContainer = createSlidersWithSwitcher(false, data, types, names)
         popularContainer.prepend(createHeader(title))
         return popularContainer
     }

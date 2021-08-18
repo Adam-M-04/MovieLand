@@ -17,11 +17,15 @@ class History
             this.appRef.mainInput.input.value = ''
             this.appRef.mainInput.show()
             this.appRef.content.homepage.showResult()
+            $('html,body').scrollTop(0);
+            window.scrollBy(0,this.appRef.content.homepage.scroll_value)
         }
         else
         {
             let currentElement = this.history[this.history.length-1]
             currentElement.showResult()
+            $('html,body').scrollTop(0);
+            window.scrollBy(0, currentElement.scroll_value)
         }
     }
 
@@ -35,9 +39,14 @@ class History
         this.backButton.appendChild(backImg)
     }
 
-    push(elmntRef)
+    push(elmntRef, scroll_value)
     {
-        if(this.history.length === 0) document.body.appendChild(this.backButton)
+        if(this.history.length === 0)
+        {
+            document.body.appendChild(this.backButton)
+            this.appRef.content.homepage.scroll_value = scroll_value
+        } 
+        else this.history[this.history.length-1].scroll_value = scroll_value
         this.history.push(elmntRef)
         if(elmntRef instanceof Search_result) this.appRef.mainInput.show()
         else this.appRef.mainInput.hide()

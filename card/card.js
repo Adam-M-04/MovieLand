@@ -170,7 +170,7 @@ class Card
     showDetailedView()
     {
         if(this.type === 'season') this.contentRef.showDetailedView(this.type, this.data.tv_id, this.data.season_number)
-        else this.contentRef.showDetailedView(this.type, this.data.id, this.data.season_number)
+        else this.contentRef.showDetailedView(this.type, this.data.id)
     }
 
 }

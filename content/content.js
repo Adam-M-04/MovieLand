@@ -22,13 +22,15 @@ class Content
     setResult(data, option, search_phrase)
     {
         this.result = new Search_result(search_phrase.search_phrase, data, option, this)
-        this.app.history.push(this.result)
+        let tmp = window.pageYOffset
+        this.app.history.push(this.result, tmp)
         this.showResult()
     }
     
     showDetailedView(type, id, season_number)
     {
-        this.app.history.push(new Detailed_view(type, id, this, season_number))
+        let tmp = window.pageYOffset
+        this.app.history.push(new Detailed_view(type, id, this, season_number), tmp)
         $('html,body').scrollTop(0);
     }
     

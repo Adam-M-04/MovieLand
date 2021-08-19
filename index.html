@@ -5,7 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Explore millions of movies, tv shows and people!">
-    <link rel="icon" href="img/icon.png">
+    <meta name="theme-color" content="#000814">
+    <link rel="icon" href="img/icon_192.png">
+    <link rel="apple-touch-icon" href="/img/icon.png">
+    <link rel="manifest" href="manifest.json">
     <title>MovieLand</title>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/swiper/components/pagination/pagination.min.css" />
@@ -17,18 +20,13 @@
     <link rel="stylesheet" href="input/input.css">
     <link rel="stylesheet" href="filter/filter.css">
     <link rel="stylesheet" href="homepage/homepage.css">
-    <link rel="stylesheet" href="detailed_view/detailed_view.css">
     <link rel="stylesheet" href="pages_selector/pages_selector.css">
-    <link rel="stylesheet" href="detailed_view/movie/DV_movie.css">
-    <link rel="stylesheet" href="detailed_view/tv/DV_tv.css">
-    <link rel="stylesheet" href="detailed_view/person/DV_person.css">
-    <link rel="stylesheet" href="detailed_view/DV_season/DV_season.css">
-    <link rel="stylesheet" href="epsiode/episode.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="search_result/search_result.js"></script>
     <script src="switch/switch.js"></script>
-    <script src="slide_show/slide_show.js"></script>
+    <script src="slide_show/slide_show.js" defer></script>
     <script src="data.js"></script>
     <script src="fetch.js"></script>
     <script src="history/history.js"></script>
@@ -37,16 +35,16 @@
     <script src="menu/menu.js"></script>
     <script src="content/content.js"></script>
     <script src='card/card.js'></script>
-    <script src="epsiode/episode.js"></script>
+    <script src="epsiode/episode.js" defer></script>
     <script src='filter/filter.js'></script>
     <script src='functions.js'></script>
-    <script src='detailed_view/detailed_view.js'></script>
+    <script src='detailed_view/detailed_view.js' defer></script>
     <script src="homepage/homepage.js"></script>
-    <script src='pages_selector/pages_selector.js'></script>
-    <script src='detailed_view/movie/DV_movie.js'></script>
-    <script src='detailed_view/tv/DV_tv.js'></script>
-    <script src='detailed_view/person/DV_person.js'></script>
-    <script src="detailed_view/DV_season/DV_season.js"></script>
+    <script src='pages_selector/pages_selector.js' defer></script>
+    <script src='detailed_view/movie/DV_movie.js' defer></script>
+    <script src='detailed_view/tv/DV_tv.js' defer></script>
+    <script src='detailed_view/person/DV_person.js' defer></script>
+    <script src="detailed_view/DV_season/DV_season.js" defer></script>
 </head>
 <body>
     <h1 id="title"><img src="img/logo.png" id="logo" onclick="app.go_home()"></h1>

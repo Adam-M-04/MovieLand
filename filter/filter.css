@@ -14,7 +14,7 @@
     background-color: #001D3D;
     color: #E5E5E5;
     border-radius: 40px;
-    border: 3px solid white;
+    border: 3px solid #E5E5E5;
     position: relative;
     z-index: 4;
 }
@@ -32,10 +32,11 @@
     top: 53px;
     
     background-color: #003566;
-    border: 1px solid #E5E5E5;
+    border: 1px solid #838282;
     left: calc(50% - width);
     margin-top: 5px;
 }
+
 
 .filter_option {
     width: calc(100% - 6px);
@@ -55,7 +56,7 @@
 }
 
 .filter_option_border {
-    border-bottom: 1px solid #E5E5E5;
+    border-bottom: 1px solid #838282;
 }
 
 .filter_option_selected {

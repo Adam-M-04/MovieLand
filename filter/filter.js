@@ -25,6 +25,7 @@ class Filter
         this.filter.onclick = (e)=>{this.toggle(e);}
         this.filter.innerText = this.name
         this.createOptions()
+        
     }
 
     createOptions()

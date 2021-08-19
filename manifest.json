@@ -1,0 +1,24 @@
+{
+    "name": "MovieLand",
+    "short_name": "Movieland",
+    "theme_color": "#fca311",
+    "background_color": "#000814",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/",
+    "icons": [
+      {
+        "src": "/img/icon.png",
+        "type": "image/png",
+        "sizes": "192x192",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "/img/icon.png",
+        "type": "image/png",
+        "sizes": "512x512",
+        "purpose": "any maskable"
+      }
+    ],
+    "splash_pages": null
+  }

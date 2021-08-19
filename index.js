@@ -1,8 +1,9 @@
-
 class App
 {
     constructor()
     {
+		this.register_service_worker()
+
 		this.history = new History(this)
 
         this.menu = new Menu(this);
@@ -10,6 +11,7 @@ class App
         this.mainInput = new Input(this)
 
         this.content = new Content(this);
+		
     }
 
     go_home()
@@ -22,10 +24,28 @@ class App
 		$('html,body').scrollTop(0);
     }
 
+	register_service_worker()
+	{
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function() {
+				navigator.serviceWorker.register('/service_worker.js').then(function(registration) {
+					console.log('ServiceWorker registration successful with scope: ', registration.scope);
+				}, function(err) {
+					console.log('ServiceWorker registration failed: ', err);
+				});
+			});
+		}
+	}
+
 }
 
 app = new App()
 app.content.homepage = new Homepage(app)
+
+window.addEventListener('load', loadMultipleCSS);
+
+
+
 /* https://gist.github.com/tobytailor/1164818/a325bcd4b6da72fe5116a5619e7276e6f47e1925
 if(window.history && history.pushState){ // check for history api support
 	window.addEventListener('load', function(){

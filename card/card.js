@@ -122,9 +122,9 @@ class Card
         if(this.type === 'person')
         {
             return (this.data.profile_path !== null) ? 
-                `https://image.tmdb.org/t/p/w500${this.data.profile_path}` : '../img/default_person.svg'
+                `https://image.tmdb.org/t/p/w185${this.data.profile_path}` : '../img/default_person.svg'
         }
-        return (this.data.poster_path !== null) ? `https://image.tmdb.org/t/p/w500${this.data.poster_path}` : '../img/default_movie_poster.png'
+        return (this.data.poster_path !== null) ? `https://image.tmdb.org/t/p/w185${this.data.poster_path}` : '../img/default_movie_poster.png'
     }
 
     getRole()

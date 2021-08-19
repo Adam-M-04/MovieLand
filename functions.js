@@ -67,6 +67,27 @@ function createVoteContainer(vote_count, vote_average, className = 'voteContaine
     return votes
 }
 
+function loadCSS(href)
+{
+    let cssLink = document.createElement('link');
+    cssLink.rel = 'stylesheet'
+    cssLink.href = href
+    document.head.appendChild(cssLink)
+}
+
+function loadMultipleCSS()
+{
+    arr = [
+        'detailed_view/detailed_view.css', 
+        'epsiode/episode.css', 
+        'detailed_view/DV_season/DV_season.css', 
+        'detailed_view/person/DV_person.css', 
+        'detailed_view/tv/DV_tv.css',
+        'detailed_view/movie/DV_movie.css'
+    ]
+    for(let css of arr) loadCSS(css)
+}
+
 function switchSliders(swiper1, swiper2, container, switcher)
 {
     if(switcher.current)

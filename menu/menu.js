@@ -40,19 +40,18 @@ class Menu
         this.menuSwitch.onclick = ()=>{this.menuDown()}
         document.body.appendChild(this.menu);
         document.body.appendChild(this.menuSwitch);
-        $('#menu').animate({height: 'toggle'},0)
     }
 
     menuDown()
     {
-        $('#menu').animate({height: 'toggle'},500, () => {
+        $('#menu').animate({height: '100vh'},500, () => {
             this.menuSwitch.innerHTML = "<img src='../img/close.svg' id='menu_close'>"
         })
         this.menuSwitch.onclick = ()=>{this.menuUp()}
     }
 
     menuUp(){
-        $('#menu').animate({height: 'toggle'},500, () => {
+        $('#menu').animate({height: '0vh'},500, () => {
             this.menuSwitch.innerHTML = "<img src='../img/menu_arrows.svg' id='menu_arrows'>"
         })
         this.menuSwitch.onclick = ()=>{this.menuDown()}

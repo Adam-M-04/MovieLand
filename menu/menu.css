@@ -1,5 +1,5 @@
 #menu {
-    height: 100vh;
+    height: 0vh;
     width: 100vw;
     background-color: #14213D;
     position:fixed;
@@ -11,6 +11,7 @@
     align-items: center;
     flex-wrap: wrap;
     z-index: 10;
+    overflow: hidden;
 }
 
 #menuSwitch {

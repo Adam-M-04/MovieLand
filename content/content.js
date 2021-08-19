@@ -4,10 +4,15 @@ class Content
     constructor(app)
     {
         this.app = app
-        this.result = new Search_result(null, null, null, this);
+        
         this.contentDIV.id = 'content'
         document.body.appendChild(this.contentDIV)
-        this.pages_selector = new Pages_selector(this)
+
+        $(document).ready(()=>{
+            this.result = new Search_result(null, null, null, this);
+            this.pages_selector = new Pages_selector(this)
+        })
+
     }
 
     getType(data)

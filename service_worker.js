@@ -1,7 +1,9 @@
 var CACHE_NAME = 'v1';
 var urlsToCache = [
-  '/menu/menu.js',
-  '/menu/menu.css',
+    'https://unpkg.com/swiper/swiper.min.css',
+    'https://unpkg.com/swiper/components/pagination/pagination.min.css',
+    'https://unpkg.com/swiper/swiper-bundle.min.js',
+    'https://movieland-kappa.vercel.app/img/close.svg',
 ];
 
 self.addEventListener('install', function(event) {

@@ -8,13 +8,13 @@
     "start_url": "/",
     "icons": [
       {
-        "src": "/img/icon_192.png",
+        "src": "/img/icon_phones_192.png",
         "type": "image/png",
         "sizes": "192x192",
         "purpose": "any maskable"
       },
       {
-        "src": "/img/icon.png",
+        "src": "/img/icon_phones.png",
         "type": "image/png",
         "sizes": "512x512",
         "purpose": "any maskable"

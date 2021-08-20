@@ -1,16 +1,12 @@
 var CACHE_NAME = 'v1';
 var urlsToCache = [
-    'https://unpkg.com/swiper/swiper.min.css',
-    'https://unpkg.com/swiper/components/pagination/pagination.min.css',
-    'https://unpkg.com/swiper/swiper-bundle.min.js',
-    'https://movieland-kappa.vercel.app/img/close.svg',
+  '/',
 ];
 
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('Opened cache');
         return cache.addAll(urlsToCache);
       })
   );
@@ -27,7 +23,6 @@ self.addEventListener('activate', event => {
             }));
         })
     );
-    console.log('Worker activated successfully', event);
 });
 
 self.addEventListener('fetch', function(event) {

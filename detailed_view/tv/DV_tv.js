@@ -104,8 +104,6 @@ class TvDetails
             <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>First episode air date:</span> ${(this.data.first_air_date !== null && this.data.first_air_date.length > 0 ? this.data.first_air_date : '?')}</span>${br}
             <span class='DV_moreInfo_row' title='Title: ${this.data.last_episode_to_air.name}\nDescription: ${this.data.last_episode_to_air.overview}'>
                 <span class='DV_moreInfo_title'>Last episode air date:</span> ${(this.data.last_air_date !== null && this.data.last_air_date.length > 0 ? this.data.last_air_date : '?')}</span>${br}
-            <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Number of seasons: </span>${this.data.number_of_seasons}</span>${br}
-            <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Number of episodes: </span>${this.data.number_of_episodes}</span>${br}
             <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Languages: </span> <l>${(this.data.spoken_languages.length > 0 ) ? this.data.spoken_languages.map((lang)=>{return ' '+lang.name}) : '?'}</l></span>${br}`
 
         let secondDiv = document.createElement('div')

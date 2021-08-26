@@ -1,8 +1,9 @@
-function createHeader(header_text)
+function createHeader(header_text, smaller = false)
 {
     let span = document.createElement('span')
     span.innerText = header_text
     span.className = 'decorated_header'
+    if(smaller) span.style.fontSize = '26px'
 
     let text = document.createElement('h2')
     text.className = 'decorated_header_container'
@@ -78,12 +79,14 @@ function loadCSS(href)
 function loadMultipleCSS()
 {
     arr = [
-        'detailed_view/detailed_view.css', 
-        'epsiode/episode.css', 
-        'detailed_view/DV_season/DV_season.css', 
-        'detailed_view/person/DV_person.css', 
-        'detailed_view/tv/DV_tv.css',
-        'detailed_view/movie/DV_movie.css'
+        '/detailed_view/detailed_view.css', 
+        '/epsiode/episode.css', 
+        '/detailed_view/DV_season/DV_season.css', 
+        '/detailed_view/person/DV_person.css', 
+        '/detailed_view/tv/DV_tv.css',
+        '/detailed_view/movie/DV_movie.css',
+        '/discover/movies/discover_movies.css',
+        '/discover/filters/filters.css'
     ]
     for(let css of arr) loadCSS(css)
 }

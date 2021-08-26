@@ -1,11 +1,12 @@
 class Search_result
 {
-    constructor(query, result, option, contentRef)
+    constructor(result, option, contentRef)
     {
         this.data = result
-        this.query = query
+        this.query = result !== null ? result.search_phrase : null
         this.option = option
         this.contentRef = contentRef
+        
     }
 
     showResult()

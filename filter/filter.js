@@ -1,12 +1,12 @@
 class Filter
 {
-    constructor(name, options, defOption = 0)
+    constructor(name, options, defOption = 0, change_function = ()=>{})
     {
         this.name = name
         this.options = options
         this.option = defOption
         this.open = false
-
+        this.change_function = change_function
         this.create()
     }
 
@@ -16,6 +16,7 @@ class Filter
         this.option = new_id
         this.optionsContainerHTML[prev_id].className = this.getClassNames(prev_id)
         this.optionsContainerHTML[new_id].className = this.getClassNames(new_id)
+        this.change_function()
     }
 
     create()

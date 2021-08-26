@@ -6,14 +6,17 @@ class Menu
         this.menu.id = "menu";
 
         this.menuElementsTitles = [
-            'Home','Movies', 'TV Shows', 'People'
+            'Home','Movies', 'TV Shows', 'Random'
         ]
 
         this.menuElementsFunctions = [
             ()=>{appRef.go_home(); this.menuUp()},
-            ()=>{},
-            ()=>{},
-            ()=>{}
+            ()=>{
+                if(!(appRef.history.history[appRef.history.history.length-1] instanceof Discover_movies)) appRef.history.push(new Discover_movies(appRef.content), window.pageYOffset)
+                this.menuUp()
+            },
+            ()=>{alert("COMING SOON!")},
+            ()=>{alert("COMING SOON!")}
         ]
 
         let titlesContainer = document.createElement('div')

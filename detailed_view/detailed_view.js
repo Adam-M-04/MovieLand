@@ -6,7 +6,7 @@ class Detailed_view
         this.type = type
         this.id = id
         this.contentDIV = contentRef.contentDIV
-        this.contentDIV.innerHTML = 'Loading...'
+        this.contentDIV.innerHTML = '<img src="/img/loading.svg">'
         if(type === 'movie')
         {
             fetch_data(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=credits,images,recommendations`, this, 'movie')

@@ -13,7 +13,7 @@ self.addEventListener('install', function(event) {
 });
 
 self.addEventListener('activate', event => {
-    let cacheKeepList = ['v1'];
+    let cacheKeepList = [CACHE_NAME];
     event.waitUntil(
         caches.keys().then( keyList => {
             return Promise.all(keyList.map(function(key) {

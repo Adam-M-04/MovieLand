@@ -1,0 +1,16 @@
+.discover_container {
+    width: 100%;
+    max-width: 1560px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.discover_result_container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 1450px;
+}
+
+

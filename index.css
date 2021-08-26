@@ -94,8 +94,24 @@ footer {
     height: 50px;
     padding: 5px;
     padding-left: 10px;
+    padding-right: 10px;
     border-left: 4px #FCA311 solid;
+    border-right: 4px #FCA311 solid;
     font-size: 30px;
+    border-radius: 10px;
+}
+
+body::-webkit-scrollbar {
+    width: 10px;               
+  }
+  
+body::-webkit-scrollbar-track {
+    background: #000814;       
+  }
+  
+body::-webkit-scrollbar-thumb {
+    background-color: #FCA311;    
+    border-radius: 20px;       
 }
 
 @media (max-width: 500px){

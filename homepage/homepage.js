@@ -52,9 +52,9 @@ class Homepage
         if(this.data.trending.movie !== null && this.data.trending.tv !== null && this.data.upcoming.movie !== null && this.data.upcoming.tv !== null)
         {
             this.trendingContainer = this.createResultContainer([this.data.trending.movie.results, this.data.trending.tv.results], ['movie','tv'],
-                ['Movies', 'TV shows'], "Trending")
+                ['Movies', 'TV shows'], "TRENDING")
             this.upcomingContainer = this.createResultContainer([this.data.upcoming.movie.results, this.data.upcoming.tv.results], ['movie','tv'],
-                ['Movies', 'TV shows'], "Latest")
+                ['Movies', 'TV shows'], "LATEST")
 
             this.showResult()
         }

@@ -9,7 +9,7 @@ class Content
         document.body.appendChild(this.contentDIV)
 
         $(document).ready(()=>{
-            this.result = new Search_result(null, null, null, this);
+            this.result = new Search_result(null, null, this);
             this.pages_selector = new Pages_selector(this)
         })
 
@@ -24,9 +24,10 @@ class Content
         return this.result.option
     }
 
-    setResult(data, option, search_phrase)
+    setResult(data, option, more_options)
     {
-        this.result = new Search_result(search_phrase.search_phrase, data, option, this)
+        data.search_phrase = more_options.search_phrase
+        this.result = new Search_result(data, option, this)
         let tmp = window.pageYOffset
         this.app.history.push(this.result, tmp)
         this.showResult()

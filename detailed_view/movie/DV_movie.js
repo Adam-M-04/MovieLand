@@ -75,7 +75,7 @@ class MovieDetails
 
         let runtime = document.createElement('span')
         runtime.className = 'DV_runtime'
-        runtime.innerText = `( ${this.data.runtime}  min )`
+        runtime.innerText = `( ${this.data.runtime?this.data.runtime:'?'}  min )`
         runtime.title = parseInt(this.data.runtime / 60) + 'h ' + (this.data.runtime % 60) + 'min'
         runtime.appendChild(createVoteContainer(this.data.vote_count, this.data.vote_average, 'DV_voteContainer', true))
         text.appendChild(runtime)

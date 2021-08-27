@@ -13,13 +13,26 @@ class Discover_movies {
         this.result_container.className = 'discover_result_container'
         this.container.appendChild(this.result_container)
 
-        fetch_data(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=1`, this, 'movies', JSON.stringify(this.filters.filters_values))
+        let tmp = JSON.stringify(this.filters.filters_values)
+        this.pages_selector = new Pages_selector(this.result_container, (page)=>{
+            this.update(tmp, page)
+        })
+
+        fetch_data(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=1`, this, 'movies', 
+            {"filters":JSON.stringify(this.filters.filters_values), "reset_pages": true})
         this.showResult()
     }
 
-    setResult(result, type, filters)
+    setResult(result, type, more)
     {
-        if(filters === JSON.stringify(this.filters.filters_values)){
+        let tmp = JSON.stringify(this.filters.filters_values)
+        if(more.reset_pages) 
+        {
+            this.pages_selector.search_function = (page)=>{
+                this.update(tmp, page)
+            }
+        }
+        if(more.filters === tmp){
             this.movies = result
             this.updateResult()
         }
@@ -45,13 +58,17 @@ class Discover_movies {
             let card = new Card('movie', movie, this.contentRef)
             this.result_container.appendChild(card.card)
         }
+        this.pages_selector.setNumberOfPages(this.movies.total_pages)
+        this.pages_selector.setPage(this.movies.page)
+        this.pages_selector.show()
     }
 
-    update(filters)
+    update(filters, page = '1')
     {
         if(filters == JSON.stringify(this.filters.filters_values))
         {
-            fetch_data(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=1${this.getFiltersValues()}`, this, 'movies', filters)
+            fetch_data(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${page}${this.getFiltersValues()}`, this, 'movies', 
+            {"filters":filters, "reset_pages": typeof(page) === "string"})
         }
     }
 
@@ -70,7 +87,7 @@ class Discover_movies {
         switch(filter_values.runtime)
         {
             case 1: filters += '&with_runtime.lte=60'; break;
-            case 2: filters += '&with_runtime.gte=60&&with_runtime.lte=150'; break;
+            case 2: filters += '&with_runtime.gte=60&with_runtime.lte=150'; break;
             case 3: filters += '&with_runtime.gte=150'; break;
             default: break;
         }

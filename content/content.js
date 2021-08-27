@@ -10,7 +10,15 @@ class Content
 
         $(document).ready(()=>{
             this.result = new Search_result(null, null, this);
-            this.pages_selector = new Pages_selector(this)
+            this.pages_selector = new Pages_selector(this.contentDIV, (page)=>{
+                let inputRef = this.app.mainInput
+                inputRef.input.value = this.result.query
+                inputRef.filter.changeOption(['movie', 'tv', 'person', 'multi'].indexOf(this.result.option))
+                inputRef.search(this.result.query, page)
+            },
+            (data, options)=>{
+                this.setResult(data, options, false)
+            })
         })
 
     }

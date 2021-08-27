@@ -1,12 +1,13 @@
 class Pages_selector
 {
-    constructor(content_ref)
+    constructor(container_ref, search_function, set_result_function)
     {
-        this.content_ref = content_ref
+        this.container_ref = container_ref
+        this.search_function = search_function
+        this.set_result_function = set_result_function
         this.currentPage = null
         this.numberOfPages = null;
         this.create()
-        
     }
 
     buttonStyle(button, mode)
@@ -54,7 +55,7 @@ class Pages_selector
 
     createNextButton()
     {
-        this.nextButton = createIMG('../img/arrow.svg', 'PS_next')
+        this.nextButton = createIMG('/img/arrow.svg', 'PS_next')
         this.nextButton.onclick = ()=>{this.search(this.getPage('increment'))}
         this.nextButton.title = 'Go to the next page'
         this.container.appendChild(this.nextButton)
@@ -93,11 +94,8 @@ class Pages_selector
     search(page)
     {
         if(page === null) return
-        this.content_ref.contentDIV.innerHTML = 'Loading...'
-        let inputRef = this.content_ref.app.mainInput
-        inputRef.input.value = this.content_ref.result.query
-        inputRef.filter.changeOption(['movie', 'tv', 'person', 'multi'].indexOf(this.content_ref.result.option))
-        inputRef.search(this.content_ref.result.query, page)
+        this.container_ref.innerHTML = '<img src="/img/loading.svg">'
+        this.search_function(page)
     }
 
     setNumberOfPages(numOfPages)
@@ -131,13 +129,13 @@ class Pages_selector
 
     setResult(data, option)
     {
-        this.content_ref.setResult(data, option, false)
+        this.set_result_function(data, option)
     }
 
     show()
     {
         this.inputWithCurrentPage.value = this.currentPage
-        this.content_ref.contentDIV.appendChild(this.container)
+        this.container_ref.appendChild(this.container)
     }
 
 }

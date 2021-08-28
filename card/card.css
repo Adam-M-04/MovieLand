@@ -40,6 +40,8 @@
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    font-size: 1.05em;
+    line-height: 22px;
 }
 
 .card_text_minimal {

@@ -20,26 +20,15 @@ class Filters
             "max_rating": 10,
             "original_language": null,
             "runtime" : 0,
-            "actors": [] // Not ready yet
+            "actors": []
         }
     }
 
-    createDateInputContainer(text)
+    clear()
     {
-        let container = document.createElement('div')
-        container.innerHTML = "<span class='filter_dates_text'>"+text+"</span>"
-        container.className = 'date_input_container'
-    
-        let date = document.createElement('input')
-        date.className = 'date_input'
-        date.setAttribute('min', '1900-01-01')
-        date.setAttribute('max', '2100-01-01')
-        date.type = 'date'
-
-        date.onchange = ()=>{this.handle_release_date_input(date.value, text==='FROM'?"min_release_date":"max_release_date")}
-
-        container.appendChild(date)
-        return container
+        this.sort_order_arrow.reset()
+        for(let filter of this.filters_array) filter.reset()
+        this.parentRef.update(JSON.stringify(this.filters_values))
     }
 
     createFilters()
@@ -51,59 +40,152 @@ class Filters
             }, 1000);
         })
         this.sort_by_filter.filter.style.width = '120px'
+        this.sort_order_arrow = new Arrow_filter(this)
+        this.sort_by_filter.filter.appendChild(this.sort_order_arrow.sorting_arrow)
 
-        let sorting_arrow = createIMG('/img/sorting_arrow.svg', 'filter_sort_by_arrow')
-        sorting_arrow.title = 'Descending'
-        sorting_arrow.onclick = (e)=>{e.stopPropagation(); this.handle_arrow(sorting_arrow, -90)}
-        this.sort_by_filter.filter.appendChild(sorting_arrow)
+        let reset_img = createIMG('/img/clear_icon.svg', 'clear_filters_icon')
+        reset_img.onclick = (e)=>{e.stopPropagation(); this.clear()}
+        this.sort_by_filter.filter.prepend(reset_img)
 
         this.container.appendChild(this.sort_by_filter.filter)
-
         this.filters_container = document.createElement('div')
         this.filters_container.className = 'filter_container'
 
-        this.filters_container.appendChild(this.createGenresFilter())
-        this.filters_container.appendChild(this.createReleaseDateFilter()) 
-        this.filters_container.appendChild(this.createRuntimeFIlter())
-        this.filters_container.appendChild(this.createVotesAverageFilter())
-        this.filters_container.appendChild(this.createLanguagesInput())
+        this.filters_array = [
+            new Genres_filter(this), 
+            new Release_date_filter(this),
+            new Runtime_filter(this),
+            new Rating_filter(this),
+            new Languages_filter(this),
+            new People_input(this)
+        ]
+
+        for(let filter of this.filters_array) this.filters_container.appendChild(filter.container)
 
         this.container.appendChild(this.filters_container)
         $(this.filters_container).slideToggle(0)
     }
 
-    createGenresFilter()
+    toggle(arrows, state)
     {
-        let genres_filter = document.createElement('div')
-        genres_filter.className = "genres_filter"
-        genres_filter.appendChild(createHeader("Genres", true))
+        $(this.filters_container).slideToggle(300)
+        setTimeout(() => {
+            $(arrows).css({transform: 'scale(1,'+state+')'})
+        }, 280);
+        arrows.onclick = ()=>{this.toggle(arrows, state === 1 ? -1 : 1)}
+    }
+}
+
+class Arrow_filter {
+    constructor(filtersRef)
+    {
+        this.filtersRef = filtersRef
+        this.sorting_arrow = createIMG('/img/sorting_arrow.svg', 'filter_sort_by_arrow')
+        this.sorting_arrow.title = 'Descending'
+        this.sorting_arrow.onclick = (e)=>{e.stopPropagation(); this.handle_arrow(-90)}
+    }
+
+    handle_arrow(degrees)
+    {
+        this.filtersRef.filters_values.sort_order = degrees === -90 ? 'asc': 'desc'
+        this.sorting_arrow.title = degrees === -90 ? 'Ascending' : 'Descending'
+        this.sorting_arrow.style.transform = 'rotate(' + degrees + 'deg)'
+        this.sorting_arrow.onclick = (e)=>{e.stopPropagation();this.handle_arrow(degrees===90?-90:90)}
+        let current_filters = JSON.stringify(this.filtersRef.filters_values)
+        setTimeout(() => {
+            this.filtersRef.parentRef.update(current_filters)
+        }, 1000);
+    }
+
+    reset()
+    {
+        this.filtersRef.filters_values.sort_order = 'desc'
+        this.sorting_arrow.title = 'Descending'
+        this.sorting_arrow.style.transform = 'rotate(90deg)'
+        this.sorting_arrow.onclick = (e)=>{e.stopPropagation();this.handle_arrow(-90)}
+    }
+}
+
+class Genres_filter {
+    constructor(filtersRef)
+    {
+        this.filtersRef = filtersRef
+        this.create()
+    }
+
+    create()
+    {
+        this.container = document.createElement('div')
+        this.container.className = "genres_filter"
+        this.container.appendChild(createHeader("Genres", true))
         
-        let genres_container = document.createElement("div")
-        genres_container.className = "genres_container"
+        this.genres_container = document.createElement("div")
+        this.genres_container.className = "genres_container"
         for(const [key, value] of Object.entries(genresMovie))
         {
             let tmp = document.createElement('div')
             tmp.className = "genre_item"
             tmp.innerText = value
-            tmp.onclick = ()=>{this.handle_genres(tmp, key)}
-            genres_container.appendChild(tmp)
+            tmp.onclick = ()=>{this.handle(tmp, key)}
+            this.genres_container.appendChild(tmp)
         }
 
-        genres_filter.appendChild(genres_container)
-
-        return genres_filter
+        this.container.appendChild(this.genres_container)
     }
 
-    createLanguagesInput()
+    handle(item, key)
     {
-        let container = document.createElement('div')
+        if(item.getAttribute('selected'))
+        {
+            item.removeAttribute('selected')
+            for(let i in this.filtersRef.filters_values.selected_genres)
+            {
+                if(this.filtersRef.filters_values.selected_genres[i] === key)
+                { 
+                    this.filtersRef.filters_values.selected_genres.splice(i, 1)
+                    let current_filters = JSON.stringify(this.filtersRef.filters_values)
+                    setTimeout(() => {
+                        this.filtersRef.parentRef.update(current_filters)
+                    }, 1000);
+                    return 
+                }
+            }
+        }
+        else
+        {
+            item.setAttribute('selected', 'true')
+            this.filtersRef.filters_values.selected_genres.push(key)
+        }
+        let current_filters = JSON.stringify(this.filtersRef.filters_values)
+        setTimeout(() => {
+            this.filtersRef.parentRef.update(current_filters)
+        }, 1000);
+    }
 
-        container.appendChild(createHeader('Original language', true))
+    reset()
+    {
+        this.filtersRef.filters_values.selected_genres = []
+        for(let genre of this.genres_container.childNodes) genre.removeAttribute('selected')
+    }
+}
 
-        let input = document.createElement('input')
-        input.className = 'filter_languages_input'
-        input.setAttribute('list', 'Languages')
-        input.onblur = ()=>{this.handle_languages_blur(input.value, input)}
+class Languages_filter {
+    constructor(filtersRef)
+    {
+        this.filtersRef = filtersRef
+        this.create()
+    }
+
+    create()
+    {
+        this.container = document.createElement('div')
+
+        this.container.appendChild(createHeader('Original language', true))
+
+        this.input = document.createElement('input')
+        this.input.className = 'filter_languages_input'
+        this.input.setAttribute('list', 'Languages')
+        this.input.onblur = ()=>{this.handle(this.input.value)}
 
         let datalist = document.createElement('datalist')
         datalist.id = 'Languages'
@@ -114,57 +196,178 @@ class Filters
             datalist.appendChild(tmp)
         }
 
-        container.append(input, datalist)
-        return container
+        this.container.append(this.input, datalist)
     }
 
-    createReleaseDateFilter()
+    handle(value)
     {
-        let release_date_filter = document.createElement('div')
-        release_date_filter.className = "release_date_filter"
-        release_date_filter.appendChild(createHeader("Release date", true))
-
-        let inputs = document.createElement('div')
-        inputs.className = 'release_date_inputs_container'
-
-        let inputs2 = document.createElement('div')
-        inputs2.className = 'release_date_inputs_container2'
-        inputs.appendChild(inputs2)
-
-        inputs2.appendChild(this.createDateInputContainer("FROM"))
-        inputs2.appendChild(this.createDateInputContainer("TO"))
-
-        release_date_filter.appendChild(inputs)
-
-        return release_date_filter
-    }
-
-    createRuntimeFIlter()
-    {
-        let container = document.createElement('div')
-        container.appendChild(createHeader('Runtime'))
-        container.className = 'filter_runtime_container'
-
-        let options = ["<b>ALL</b>","<b>SHORT</b> ( 0 - 60 minutes )","<b>NORMAL</b> ( 60 - 150 minutes )","<b>LONG</b> ( 150+ minutes )"]
-
-        for(let i in options)
+        let tmp = this.filtersRef.filters_values.original_language
+        this.filtersRef.filters_values.original_language = null
+        if(value === '') {this.input.style.borderColor = '#FCA311'; return}
+        for(let language of languages)
         {
-            i = parseInt(i)
-            let tmp = document.createElement('div')
-            tmp.innerHTML = options[i]
-            tmp.className = 'filter_runtime_option'
-            tmp.onclick = ()=>{this.handleRuntime(tmp, i)}
-            if(!i) tmp.setAttribute('selected', 'true')
-            container.appendChild(tmp) 
+            if(language.English === value)
+            {
+                this.filtersRef.filters_values.original_language = language.alpha2
+                this.input.style.borderColor = '#FCA311'
+                if(tmp !== language.alpha2) 
+                {
+                    let current_filters = JSON.stringify(this.filtersRef.filters_values)
+                    setTimeout(() => {
+                        this.filtersRef.parentRef.update(current_filters)
+                    }, 1000);
+                }
+                return
+            }
         }
-        return container
     }
 
-    createRuntimeFIlterOption(main, description = null)
+    reset()
+    {
+        this.filtersRef.filters_values.original_language = null
+        this.handle('')
+        this.input.value = ""
+    }
+}
+
+class People_input {
+    constructor(filtersRef)
+    {
+        this.filtersRef = filtersRef
+        this.create()
+    }
+
+    create()
+    {
+        this.container = document.createElement('div')
+        this.container.appendChild(createHeader('Actors'))
+        this.results = document.createElement('div')
+        this.results.className = 'filters_results_dropdown'
+        this.selected = document.createElement('div')
+        this.selected.className = 'filters_selected_actors'
+
+        this.input = document.createElement('input')
+        this.input.className = 'filters_people_input'
+        this.input.type = 'text'
+        this.input.maxLength = 25
+        this.input.oninput = ()=>{
+            let tmp = this.input.value
+            setTimeout(() => {
+                if(tmp === this.input.value) 
+                {
+                    fetch_data(`https://api.themoviedb.org/3/search/person?api_key=${apiKey}&query=${tmp}`, this, 'people', tmp)
+                }
+            }, 500);
+        }
+        this.input.onblur = ()=>{$(this.results).slideUp(200)}
+        this.input.onfocus = ()=>{$(this.results).slideDown(200)}
+
+        this.container.appendChild(this.input)
+        this.container.appendChild(this.results)
+        this.container.appendChild(this.selected)
+    }
+
+    create_cell(data = null)
     {
         let tmp = document.createElement('div')
-        if(description !== null) tmp.innerHTML = `<div class='filter_runtime_title'>${options[i]}</div>`
-        tmp.innerHTML = `<div class='filter_runtime_title_full'>${options[i]}</div>`
+        tmp.className = 'filters_people_result_cell'
+        if(data !== null)
+        {
+            tmp.innerHTML = data.name
+            tmp.title = data.name
+            tmp.onmousedown = ()=>{
+                if(this.filtersRef.filters_values.actors.includes(data.id))
+                {
+                    this.removeActor(data.id)
+                }
+                else
+                {
+                    let person_cell = document.createElement('div')
+                    let remove_img = createIMG('/img/close.svg', "selected_person_remove_icon")
+                    remove_img.onclick = ()=>{this.removeActor(data.id)}
+                    person_cell.innerText = data.name
+                    person_cell.appendChild(remove_img)
+                    person_cell.className = 'filters_selected_person_cell'
+                    person_cell.setAttribute('actorID', data.id)
+                    this.selected.appendChild(person_cell)
+                    this.filtersRef.filters_values.actors.push(data.id)
+                    this.results.innerHTML = ''
+                    this.input.value = ''
+                    let current_filters = JSON.stringify(this.filtersRef.filters_values)
+                    setTimeout(() => {
+                        this.filtersRef.parentRef.update(current_filters)
+                    }, 1000);
+                }
+                
+            }
+            tmp.setAttribute('selected', (this.filtersRef.filters_values.actors.includes(data.id) ? 'true' : 'false'))
+            tmp.setAttribute('actorID', data.id)
+        }
+        else
+        {
+            tmp.innerHTML = 'No results'
+        }
+        return tmp
+    }
+
+    removeActor(id)
+    {
+        for(let i in this.filtersRef.filters_values.actors)
+        {
+            if(this.filtersRef.filters_values.actors[i] == id)
+            {
+                this.filtersRef.filters_values.actors.splice(i,1)
+                break
+            }
+        }
+        let selected = document.querySelector(`.filters_selected_person_cell[actorID="${id}"]`)
+        if(selected) selected.remove()
+        let result_element = document.querySelector(`.filters_people_result_cell[actorID="${id}"]`)
+        if(result_element) result_element.setAttribute('selected', 'false')
+        let current_filters = JSON.stringify(this.filtersRef.filters_values)
+        setTimeout(() => {
+            this.filtersRef.parentRef.update(current_filters)
+        }, 1000);
+    }
+
+    reset()
+    {
+        for(let id of this.filtersRef.filters_values.actors) 
+        {
+            let selected = document.querySelector(`.filters_selected_person_cell[actorID="${id}"]`)
+            if(selected) selected.remove()
+            let result_element = document.querySelector(`.filters_people_result_cell[actorID="${id}"]`)
+            if(result_element) result_element.setAttribute('selected', 'false')
+        }
+        this.filtersRef.filters_values.actors = []
+    }
+
+    setResult(result, type, value)
+    {
+        if(value !== this.input.value) return
+        this.results.innerHTML = ''
+        if(!result.total_results) this.results.appendChild(this.create_cell())
+        else
+        {
+            for(let person of result.results.slice(0,5))
+            {
+                this.results.appendChild(this.create_cell(person))
+            }
+        }
+    }
+
+    showMessage()
+    {
+        this.results.innerHTML = ''
+        this.results.appendChild(this.create_cell())
+    }
+}
+
+class Rating_filter {
+    constructor(filtersRef)
+    {
+        this.filtersRef = filtersRef
+        this.create()
     }
 
     createStarContainer(className, val, input)
@@ -176,173 +379,196 @@ class Filters
         val_container.innerText = val
         span.appendChild(val_container)
         let star = createIMG('/img/star.svg', className)
-        span.onclick = ()=>{this.handle_rating_click(input, val==='10.0'?'max':'min', val_container)}
+        span.onclick = ()=>{this.handle_rating_click(val==='10.0'?'max':'min', val_container)}
         span.appendChild(star)
         return span
     }
 
-    createVotesAverageFilter()
+    create()
     {
-        let container = document.createElement('div')
-        container.className = 'vote_average_filter'
-        container.appendChild(createHeader('Rating', true))
+        this.container = document.createElement('div')
+        this.container.className = 'vote_average_filter'
+        this.container.appendChild(createHeader('Rating', true))
 
         let stars_container = document.createElement('div')
         stars_container.className = 'vote_average_stars_container'
 
-        let input = document.createElement('input')
-        input.setAttribute('type', 'range')
-        input.setAttribute('min', '0')
-        input.setAttribute('max', '10')
-        input.setAttribute('step', '0.5')
-        input.setAttribute('hide', 'true')
-        input.className = 'vote_average_filter_input'
+        this.input = document.createElement('input')
+        this.input.setAttribute('type', 'range')
+        this.input.setAttribute('min', '0')
+        this.input.setAttribute('max', '10')
+        this.input.setAttribute('step', '0.5')
+        this.input.setAttribute('hide', 'true')
+        this.input.className = 'vote_average_filter_input'
 
-        let stars = [
-            this.createStarContainer('vote_average_minimum_star', '0.0', input),
-            this.createStarContainer('vote_average_maximum_star', '10.0', input)
+        this.stars = [
+            this.createStarContainer('vote_average_minimum_star', '0.0'),
+            this.createStarContainer('vote_average_maximum_star', '10.0')
         ]
         stars_container.append(
-            stars[0],
+            this.stars[0],
             ' - ',
-            stars[1]
+            this.stars[1]
         )
 
-        input.oninput = ()=>{this.handle_rating_change(input, stars)}
+        this.input.oninput = ()=>{this.handle_rating_change()}
 
-        container.appendChild(stars_container)
-        container.appendChild(input)
-        return container
+        this.container.appendChild(stars_container)
+        this.container.appendChild(this.input)
     }
 
-    handle_arrow(arrow, degrees)
+    handle_rating_change()
     {
-        this.filters_values.sort_order = degrees === -90 ? 'asc': 'desc'
-        arrow.title = degrees === -90 ? 'Ascending' : 'Descending'
-        arrow.style.transform = 'rotate(' + degrees + 'deg)'
-        arrow.onclick = (e)=>{e.stopPropagation();this.handle_arrow(arrow, degrees===90?-90:90)}
-        let current_filters = JSON.stringify(this.filters_values)
-        setTimeout(() => {
-            this.parentRef.update(current_filters)
-        }, 1000);
-    }
-
-    handle_genres(item, key)
-    {
-        if(item.getAttribute('selected'))
-        {
-            item.removeAttribute('selected')
-            for(let i in this.filters_values.selected_genres)
-            {
-                if(this.filters_values.selected_genres[i] === key)
-                { 
-                    this.filters_values.selected_genres.splice(i, 1)
-                    let current_filters = JSON.stringify(this.filters_values)
-                    setTimeout(() => {
-                        this.parentRef.update(current_filters)
-                    }, 1000);
-                    return 
-                }
-            }
-        }
-        else
-        {
-            item.setAttribute('selected', 'true')
-            this.filters_values.selected_genres.push(key)
-        }
-        let current_filters = JSON.stringify(this.filters_values)
-        setTimeout(() => {
-            this.parentRef.update(current_filters)
-        }, 1000);
-    }
-
-    handle_languages_blur(value, input)
-    {
-        let tmp = this.filters_values.original_language
-        this.filters_values.original_language = null
-        if(value === '') {input.style.borderColor = '#FCA311'; return}
-        for(let language of languages)
-        {
-            if(language.English === value)
-            {
-                this.filters_values.original_language = language.alpha2
-                input.style.borderColor = '#FCA311'
-                if(tmp !== language.alpha2) 
-                {
-                    let current_filters = JSON.stringify(this.filters_values)
-                    setTimeout(() => {
-                        this.parentRef.update(current_filters)
-                    }, 1000);
-                }
-                return
-            }
-        }
-        input.style.borderColor = 'red'
-    }
-
-    handle_rating_change(input, stars)
-    {
-        let name = input.getAttribute('mode') === 'min' ? 'min_rating' : 'max_rating'
+        let name = this.input.getAttribute('mode') === 'min' ? 'min_rating' : 'max_rating'
         if(name)
         {
             let update = true
-            if(name === 'min_rating')if(input.value > this.filters_values['max_rating']) {input.value = this.filters_values['max_rating'];update = false}
-            if(name === 'max_rating')if(input.value < this.filters_values['min_rating']) {input.value = this.filters_values['min_rating'];update = false}
-            this.filters_values[name] = parseFloat(input.value)
-            stars[name==='min_rating'?0:1].childNodes[0].innerText = parseFloat(input.value).toFixed(1)
+            if(name === 'min_rating')if(this.input.value > this.filtersRef.filters_values['max_rating']) {this.input.value = this.filtersRef.filters_values['max_rating'];update = false}
+            if(name === 'max_rating')if(this.input.value < this.filtersRef.filters_values['min_rating']) {this.input.value = this.filtersRef.filters_values['min_rating'];update = false}
+            this.filtersRef.filters_values[name] = parseFloat(this.input.value)
+            this.stars[name==='min_rating'?0:1].childNodes[0].innerText = parseFloat(this.input.value).toFixed(1)
 
             if(!update) return
-            let current_filters = JSON.stringify(this.filters_values)
+            let current_filters = JSON.stringify(this.filtersRef.filters_values)
             setTimeout(() => {
-                this.parentRef.update(current_filters)
+                this.filtersRef.parentRef.update(current_filters)
             }, 1000);
         }
     }
 
-    handle_rating_click(input, type, value_container)
+    handle_rating_click(type, value_container)
     {
-        if(input.getAttribute('hide') === 'true')
+        if(this.input.getAttribute('hide') === 'true')
         {
-            input.setAttribute('hide', 'false')
+            this.input.setAttribute('hide', 'false')
         }
-        else if(input.getAttribute('hide') === 'false' && input.getAttribute('mode') === type)
+        else if(this.input.getAttribute('hide') === 'false' && this.input.getAttribute('mode') === type)
         {
-            input.setAttribute('hide', 'true')
+            this.input.setAttribute('hide', 'true')
         }
-        input.setAttribute('mode', type)
-        input.value = parseFloat(value_container.innerText)
+        this.input.setAttribute('mode', type)
+        this.input.value = parseFloat(value_container.innerText)
     }
 
-    handle_release_date_input(value, type)
+    reset()
     {
-        if(value == this.filters_values[type]) return
-        this.filters_values[type] = value ? value : null
+        this.input.setAttribute('hide', 'true')
+        this.stars[0].childNodes[0].innerText = "0.0"
+        this.stars[1].childNodes[0].innerText = "10.0"
+        this.filtersRef.filters_values.min_rating = 0
+        this.filtersRef.filters_values.max_rating = 10
+    }
+}
 
-        let current_filters = JSON.stringify(this.filters_values)
+class Release_date_filter {
+    constructor(filtersRef)
+    {
+        this.filtersRef = filtersRef
+        this.create()
+    }
+
+    create()
+    {
+        this.container = document.createElement('div')
+        this.container.className = "release_date_filter"
+        this.container.appendChild(createHeader("Release date", true))
+
+        let inputs = document.createElement('div')
+        inputs.className = 'release_date_inputs_container'
+
+        let inputs2 = document.createElement('div')
+        inputs2.className = 'release_date_inputs_container2'
+        inputs.appendChild(inputs2)
+
+        inputs2.appendChild(this.createDateInputContainer("FROM"))
+        inputs2.appendChild(this.createDateInputContainer("TO"))
+
+        this.container.appendChild(inputs)
+    }
+
+    createDateInputContainer(text)
+    {
+        let container = document.createElement('div')
+        container.innerHTML = "<span class='filter_dates_text'>"+text+"</span>"
+        container.className = 'date_input_container'
+    
+        let date = document.createElement('input')
+        date.className = 'date_input'
+        date.setAttribute('min', '1800-01-01')
+        date.setAttribute('max', '2100-01-01')
+        date.type = 'date'
+
+        date.onchange = ()=>{this.handle(date.value, text==='FROM'?"min_release_date":"max_release_date")}
+
+        container.appendChild(date)
+        return container
+    }
+
+    handle(value, type)
+    {
+        if(value == this.filtersRef.filters_values[type]) return
+        this.filtersRef.filters_values[type] = value ? value : null
+
+        let current_filters = JSON.stringify(this.filtersRef.filters_values)
         setTimeout(() => {
-            this.parentRef.update(current_filters)
+            this.filtersRef.parentRef.update(current_filters)
         }, 1000);
     }
 
-    handleRuntime(elmnt,num)
+    reset()
     {
-        if(num == this.filters_values.runtime) return
-        document.getElementsByClassName('filter_runtime_option')[this.filters_values.runtime].removeAttribute('selected')
-        this.filters_values.runtime = num
+        let inputs = this.container.childNodes[1].childNodes[0]
+        inputs.childNodes[0].childNodes[1].value = ""
+        inputs.childNodes[1].childNodes[1].value = ""
+        this.filtersRef.filters_values.min_release_date = null
+        this.filtersRef.filters_values.max_release_date = null
+    }
+}
+
+class Runtime_filter {
+    constructor(filtersRef)
+    {
+        this.filtersRef = filtersRef
+        this.create()
+    }
+
+    create()
+    {
+        this.container = document.createElement('div')
+        this.container.appendChild(createHeader('Runtime'))
+        this.container.className = 'filter_runtime_container'
+
+        let options = ["<b>ALL</b>","<b>SHORT</b> ( 0 - 60 minutes )","<b>NORMAL</b> ( 60 - 150 minutes )","<b>LONG</b> ( 150+ minutes )"]
+
+        for(let i in options)
+        {
+            i = parseInt(i)
+            let tmp = document.createElement('div')
+            tmp.innerHTML = options[i]
+            tmp.className = 'filter_runtime_option'
+            tmp.onclick = ()=>{this.handle(tmp, i)}
+            if(!i) tmp.setAttribute('selected', 'true')
+            this.container.appendChild(tmp) 
+        }
+    }
+
+    handle(elmnt,num)
+    {
+        if(num == this.filtersRef.filters_values.runtime) return
+        document.getElementsByClassName('filter_runtime_option')[this.filtersRef.filters_values.runtime].removeAttribute('selected')
+        this.filtersRef.filters_values.runtime = num
         elmnt.setAttribute('selected', 'true')
 
-        let current_filters = JSON.stringify(this.filters_values)
+        let current_filters = JSON.stringify(this.filtersRef.filters_values)
         setTimeout(() => {
-            this.parentRef.update(current_filters)
+            this.filtersRef.parentRef.update(current_filters)
         }, 1000);
     }
 
-    toggle(arrows, state)
+    reset()
     {
-        $(this.filters_container).slideToggle(300)
-        setTimeout(() => {
-            $(arrows).css({transform: 'scale(1,'+state+')'})
-        }, 280);
-        arrows.onclick = ()=>{this.toggle(arrows, state === 1 ? -1 : 1)}
+        document.getElementsByClassName('filter_runtime_option')[this.filtersRef.filters_values.runtime].removeAttribute('selected')
+        this.filtersRef.filters_values.runtime = 0
+        document.getElementsByClassName('filter_runtime_option')[0].setAttribute('selected', 'true')
     }
 }

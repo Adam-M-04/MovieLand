@@ -47,7 +47,7 @@ class Discover_movies {
 
     showMessage(err)
     {
-        console.log(err)
+        this.result_container.innerHTML = `<h2>${err}</h2>`
     }
 
     updateResult()
@@ -67,6 +67,7 @@ class Discover_movies {
     {
         if(filters == JSON.stringify(this.filters.filters_values))
         {
+            this.result_container.innerHTML = '<img src="/img/loading.svg">'
             fetch_data(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${page}${this.getFiltersValues()}`, this, 'movies', 
             {"filters":filters, "reset_pages": typeof(page) === "string"})
         }

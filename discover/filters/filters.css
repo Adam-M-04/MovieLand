@@ -1,3 +1,9 @@
+.clear_filters_icon {
+    width: 50px;
+    position: absolute;
+    right: 150px;
+}
+
 .filter_container {
     overflow: hidden;
     border-left: 3px solid #FCA311;
@@ -134,7 +140,7 @@
 
 /* languages */
 
-.filter_languages_input {
+.filter_languages_input, .filters_people_input {
     width: 200px;
     height: 20px;
     font-size: 22px;
@@ -165,4 +171,52 @@
 .filter_runtime_option[selected='true'] {
     border-color: #FCA311;
     color: #FCA311;
+}
+
+/* people */
+
+.filters_results_dropdown {
+    width: 200px;
+    position: absolute;
+    left: calc(50% - 100px);
+    z-index: 10;
+}
+
+.filters_people_result_cell {
+    background-color: #E5E5E5;
+    border-radius: 30px;
+    color: #000;
+    margin: 5px;
+    padding: 8px;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    white-space: nowrap;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.filters_people_result_cell[selected="true"] {
+    background-color: #FCA311;
+}
+
+.filters_selected_actors {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.filters_selected_person_cell {
+    width: fit-content;
+    margin: 10px;
+    border: 2px solid #FCA311;
+    padding: 8px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.selected_person_remove_icon {
+    height: 20px;
+    margin-left: 15px;
+    cursor: pointer;
 }

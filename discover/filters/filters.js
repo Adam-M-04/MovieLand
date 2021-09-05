@@ -268,7 +268,7 @@ class Minimal_votes {
     create()
     {
         this.container = document.createElement('div')
-        this.container.appendChild(createHeader('Minimal votes'))
+        this.container.appendChild(createHeader('Minimal votes', true))
 
         this.result = document.createElement('div')
         this.result.className = 'filters_minimal_votes_result'

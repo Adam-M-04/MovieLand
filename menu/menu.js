@@ -15,7 +15,10 @@ class Menu
                 if(!(appRef.history.history[appRef.history.history.length-1] instanceof Discover_movies)) appRef.history.push(new Discover_movies(appRef.content), window.pageYOffset)
                 this.menuUp()
             },
-            ()=>{alert("COMING SOON!")},
+            ()=>{
+                if(!(appRef.history.history[appRef.history.history.length-1] instanceof Discover_tvs)) appRef.history.push(new Discover_tvs(appRef.content), window.pageYOffset)
+                this.menuUp()
+            },
             ()=>{alert("COMING SOON!")}
         ]
 

@@ -98,11 +98,13 @@ class TvDetails
         moreInfo.className = 'DV_moreInfo'
         
         let br = '<div style="flex-basis: 100%;height: 4px;"></div>'
+
+        let last_episode_title = this.data.last_episode_to_air ? `Title: ${this.data.last_episode_to_air.name}\nDescription: ${this.data.last_episode_to_air.overview}` : ''
         
         moreInfo.innerHTML = 
             `<span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Status:</span> ${this.data.status}</span>${br}
             <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>First episode air date:</span> ${(this.data.first_air_date !== null && this.data.first_air_date.length > 0 ? this.data.first_air_date : '?')}</span>${br}
-            <span class='DV_moreInfo_row' title='Title: ${this.data.last_episode_to_air.name}\nDescription: ${this.data.last_episode_to_air.overview}'>
+            <span class='DV_moreInfo_row' title='${last_episode_title}'>
                 <span class='DV_moreInfo_title'>Last episode air date:</span> ${(this.data.last_air_date !== null && this.data.last_air_date.length > 0 ? this.data.last_air_date : '?')}</span>${br}
             <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Languages: </span> <l>${(this.data.spoken_languages.length > 0 ) ? this.data.spoken_languages.map((lang)=>{return ' '+lang.name}) : '?'}</l></span>${br}
             <span class='DV_moreInfo_row'><span class='DV_moreInfo_title'>Created by: </span> <l>${(this.data.created_by.length > 0 ) ? this.data.created_by.map((creator)=>{return this.getCreator(creator)}) : '?'}</l></span>${br}`

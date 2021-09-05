@@ -6,7 +6,7 @@ class Discover_movies {
         this.container.className = 'discover_container'
         this.container.appendChild(createHeader('EXPLORE MOVIES'))
         
-        this.filters = new Filters(this.container, this)
+        this.filters = new Filters(this.container, this, 'movie')
         this.movies = null
 
         this.result_container = document.createElement('div')
@@ -81,6 +81,7 @@ class Discover_movies {
         if(filter_values.selected_genres.length) filters += '&with_genres=' + filter_values.selected_genres.join()
         if(filter_values.min_release_date) filters += '&primary_release_date.gte=' + filter_values.min_release_date
         if(filter_values.max_release_date) filters += '&primary_release_date.lte=' + filter_values.max_release_date
+        if(filter_values.minimal_votes !== 0) filters += '&vote_count.gte=' + filter_values.minimal_votes
         if(filter_values.min_rating !== 0) filters += '&vote_average.gte=' + filter_values.min_rating
         if(filter_values.max_rating !== 10) filters += '&vote_average.lte=' + filter_values.max_rating
         if(filter_values.original_language) filters += '&with_original_language=' + filter_values.original_language

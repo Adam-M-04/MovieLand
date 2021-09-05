@@ -1,9 +1,10 @@
 class Filters
 {
-    constructor(container, parentRef)
+    constructor(container, parentRef, type)
     {
         this.parentRef = parentRef
         this.container = container
+        this.type = type
         this.createFilters()
 
         let arrows = createIMG('/img/menu_arrows.svg', 'show_hide_filters')
@@ -16,6 +17,7 @@ class Filters
             "selected_genres" : [],
             "min_release_date" : null,
             "max_release_date" : null,
+            "minimal_votes": 0,
             "min_rating": 0,
             "max_rating": 10,
             "original_language": null,
@@ -33,11 +35,15 @@ class Filters
 
     createFilters()
     {
-        this.sort_by_filter = new Filter("Sort by", ["Popularity", "Release date", "Revenue", "Title", "Rating", "Votes number"],0,()=>{
-            let current_filters = JSON.stringify(this.filters_values)
-            setTimeout(() => {
-                this.parentRef.update(current_filters)
-            }, 1000);
+        this.sort_by_filter = new Filter(
+            "Sort by",
+            this.type === 'tv' ? ["Popularity", "Air date", "Rating"] : ["Popularity", "Release date", "Revenue", "Title", "Rating", "Votes number"],
+            0,
+            ()=>{
+                let current_filters = JSON.stringify(this.filters_values)
+                setTimeout(() => {
+                    this.parentRef.update(current_filters)
+                }, 1000);
         })
         this.sort_by_filter.filter.style.width = '120px'
         this.sort_order_arrow = new Arrow_filter(this)
@@ -51,14 +57,25 @@ class Filters
         this.filters_container = document.createElement('div')
         this.filters_container.className = 'filter_container'
 
-        this.filters_array = [
-            new Genres_filter(this), 
-            new Release_date_filter(this),
-            new Runtime_filter(this),
-            new Rating_filter(this),
-            new Languages_filter(this),
-            new People_input(this)
-        ]
+        this.filters_array = 
+            this.type === 'tv' ? 
+                [
+                    new Genres_filter(this), 
+                    new Release_date_filter(this),
+                    new Minimal_votes(this),
+                    new Rating_filter(this),
+                    new Languages_filter(this)
+                ]
+            :
+                [
+                    new Genres_filter(this), 
+                    new Release_date_filter(this),
+                    new Runtime_filter(this),
+                    new Minimal_votes(this),
+                    new Rating_filter(this),
+                    new Languages_filter(this),
+                    new People_input(this)
+                ]
 
         for(let filter of this.filters_array) this.filters_container.appendChild(filter.container)
 
@@ -121,7 +138,8 @@ class Genres_filter {
         
         this.genres_container = document.createElement("div")
         this.genres_container.className = "genres_container"
-        for(const [key, value] of Object.entries(genresMovie))
+        
+        for(const [key, value] of Object.entries(this.filtersRef.type === 'tv' ? genresShow : genresMovie))
         {
             let tmp = document.createElement('div')
             tmp.className = "genre_item"
@@ -202,6 +220,16 @@ class Languages_filter {
     handle(value)
     {
         let tmp = this.filtersRef.filters_values.original_language
+        if(this.filtersRef.filters_values.original_language !== null && value === '')
+        {
+            this.filtersRef.filters_values.original_language = null
+            let current_filters = JSON.stringify(this.filtersRef.filters_values)
+            this.input.style.borderColor = '#FCA311'
+            setTimeout(() => {
+                this.filtersRef.parentRef.update(current_filters)
+            }, 1000);
+            return;
+        }
         this.filtersRef.filters_values.original_language = null
         if(value === '') {this.input.style.borderColor = '#FCA311'; return}
         for(let language of languages)
@@ -227,6 +255,55 @@ class Languages_filter {
         this.filtersRef.filters_values.original_language = null
         this.handle('')
         this.input.value = ""
+    }
+}
+
+class Minimal_votes {
+    constructor(filtersRef)
+    {
+        this.filtersRef = filtersRef
+        this.create()
+    }
+
+    create()
+    {
+        this.container = document.createElement('div')
+        this.container.appendChild(createHeader('Minimal votes'))
+
+        this.result = document.createElement('div')
+        this.result.className = 'filters_minimal_votes_result'
+        this.result.innerText = '0+'
+
+        this.input = document.createElement('input')
+        this.input.setAttribute('type', 'range')
+        this.input.setAttribute('min', '0')
+        this.input.setAttribute('max', '6')
+        this.input.setAttribute('step', '1')
+        this.input.oninput = ()=>{this.handle(this.input.value)}
+        this.input.value = 0
+        this.input.className = 'filters_minimal_votes_input'
+        
+        this.container.appendChild(this.result)
+        this.container.appendChild(this.input)
+    }
+
+    handle(val)
+    {
+        let options = [0,10,50,100,500,1000,5000]
+        if(options[val] === this.filtersRef.filters_values.minimal_votes) return
+        this.filtersRef.filters_values.minimal_votes = options[val]
+        this.result.innerText = options[val] + '+'
+        let current_filters = JSON.stringify(this.filtersRef.filters_values)
+        setTimeout(() => {
+            this.filtersRef.parentRef.update(current_filters)
+        }, 1000);
+    }
+
+    reset()
+    {
+        this.input.value = 0
+        this.result.innerText = '0+'
+        this.filtersRef.filters_values.minimal_votes = 0
     }
 }
 
@@ -471,7 +548,7 @@ class Release_date_filter {
     {
         this.container = document.createElement('div')
         this.container.className = "release_date_filter"
-        this.container.appendChild(createHeader("Release date", true))
+        this.container.appendChild(createHeader("Air date", true))
 
         let inputs = document.createElement('div')
         inputs.className = 'release_date_inputs_container'

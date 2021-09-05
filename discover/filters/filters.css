@@ -94,6 +94,16 @@
     padding-left: 10px;
 }
 
+/* minimal votes */
+
+.filters_minimal_votes_result {
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.filters_minimal_votes_input {
+    width: 200px;
+}
 
 /* votes average */
 

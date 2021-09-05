@@ -54,7 +54,7 @@ class Homepage
             this.trendingContainer = this.createResultContainer([this.data.trending.movie.results, this.data.trending.tv.results], ['movie','tv'],
                 ['Movies', 'TV shows'], "TRENDING")
             this.upcomingContainer = this.createResultContainer([this.data.upcoming.movie.results, this.data.upcoming.tv.results], ['movie','tv'],
-                ['Movies', 'TV shows'], "LATEST")
+                ['Movies', 'TV shows'], "UPCOMING")
 
             this.showResult()
         }

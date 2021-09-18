@@ -20,12 +20,12 @@ class Menu
                 this.menuUp()
             },
             ()=>{
+                let tmp = window.pageYOffset
                 appRef.content.contentDIV.innerHTML = '<img src="/img/loading.svg">'
                 this.menuUp()
                 let type = Math.random() < 0.5 ? 'movie' : 'tv'
                 fetch_random(type).then((id)=>{
                     if(id === null) {appRef.content.contentDIV.innerText="An error occured, please try again."; return;}
-                    let tmp = window.pageYOffset
                     appRef.history.push(new Detailed_view(type, id, appRef.content), tmp)
                     $('html,body').scrollTop(0);
                 })

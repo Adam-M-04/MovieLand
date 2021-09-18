@@ -68,6 +68,25 @@ function createVoteContainer(vote_count, vote_average, className = 'voteContaine
     return votes
 }
 
+async function fetch_random(type)
+{
+    const response = await fetch(`https://api.themoviedb.org/3/discover/${type}?api_key=${apiKey}&page=${parseInt(Math.random()*500)+1}`);
+
+    if (!response.ok) {
+        return null;
+    }
+
+    const result = await response.json();
+    try
+    {
+        return result.results[parseInt(Math.random() * result.results.length)].id
+    }
+    catch(error)
+    {
+        return null
+    }
+}
+
 function loadCSS(href)
 {
     let cssLink = document.createElement('link');

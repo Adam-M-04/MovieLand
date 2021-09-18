@@ -19,7 +19,17 @@ class Menu
                 if(!(appRef.history.history[appRef.history.history.length-1] instanceof Discover_tvs)) appRef.history.push(new Discover_tvs(appRef.content), window.pageYOffset)
                 this.menuUp()
             },
-            ()=>{alert("COMING SOON!")}
+            ()=>{
+                appRef.content.contentDIV.innerHTML = '<img src="/img/loading.svg">'
+                this.menuUp()
+                let type = Math.random() < 0.5 ? 'movie' : 'tv'
+                fetch_random(type).then((id)=>{
+                    if(id === null) {appRef.content.contentDIV.innerText="An error occured, please try again."; return;}
+                    let tmp = window.pageYOffset
+                    appRef.history.push(new Detailed_view(type, id, appRef.content), tmp)
+                    $('html,body').scrollTop(0);
+                })
+            }
         ]
 
         let titlesContainer = document.createElement('div')

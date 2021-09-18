@@ -33,7 +33,7 @@ class History
     {
         this.backButton = document.createElement('button')
         this.backButton.className = 'backButton'
-        this.backButton.onclick = ()=>{this.back()}
+        this.backButton.onclick = ()=>{this.back();this.appRef.menu.menuUp()}
 
         let backImg = createIMG('../img/back.svg', 'backImg')
         this.backButton.appendChild(backImg)

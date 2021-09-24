@@ -114,6 +114,11 @@ body::-webkit-scrollbar-thumb {
     border-radius: 20px;       
 }
 
+.blurred {
+    filter: blur(3px);
+    transition: .2s;
+}
+
 @media (max-width: 500px){
     #logo {
         content: url('img/icon.png');

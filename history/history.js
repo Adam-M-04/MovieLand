@@ -15,6 +15,7 @@ class History
         {
             this.backButton.remove()
             this.appRef.mainInput.input.value = ''
+            this.appRef.mainInput.snippets_results_container.innerHTML = "" 
             this.appRef.mainInput.show()
             this.appRef.content.homepage.showResult()
             $('html,body').scrollTop(0);

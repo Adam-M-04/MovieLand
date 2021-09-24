@@ -11,11 +11,16 @@ class TvDetails
         this.DETAILS.appendChild(this.createMainText())
         this.DETAILS.appendChild(this.createSecondDiv())
 
-        for(let i in data.seasons) data.seasons[i].tv_id = data.id
-        this.DETAILS.appendChild(createHeader('Seasons'))
-        this.swipers = [createSlider(data.seasons[0].name === 'Specials' ? data.seasons.slice(1) : data.seasons, 
+        if(data.seasons.length)
+        {
+            for(let i in data.seasons) data.seasons[i].tv_id = data.id
+            this.DETAILS.appendChild(createHeader('Seasons'))
+            this.swipers = [createSlider(data.seasons[0].name === 'Specials' ? data.seasons.slice(1) : data.seasons, 
             'season', this.DV_ref.contentRef)]
-        this.DETAILS.appendChild(this.swipers[0].container)
+            this.DETAILS.appendChild(this.swipers[0].container)
+        }
+        else this.swipers = []
+        
 
         if(data.aggregate_credits.cast.length > 0 && data.aggregate_credits.crew.length > 0)
         {

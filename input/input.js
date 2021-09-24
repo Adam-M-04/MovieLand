@@ -214,6 +214,7 @@ class Input
         tmp.className = 'snippets_result_element'
         tmp.innerText = "No results"
         tmp.style.cursor = 'default'
+        tmp.style.justifyContent = "center"
         this.snippets_results_container.appendChild(tmp)
     }
   

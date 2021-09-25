@@ -130,6 +130,9 @@ body::-webkit-scrollbar-thumb {
     text-align: center;
     position: relative;
     bottom: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .copied_message[visible="true"]

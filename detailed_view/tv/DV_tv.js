@@ -74,7 +74,11 @@ class TvDetails
 
         let title = document.createElement('h2')
         title.className = 'DV_title'
-        title.innerHTML = this.data.name
+        title.title = "Double click to copy title"
+        title.innerHTML = this.data.name + '<div class="break"></div>'
+        let message_box = create_copied_message()
+        title.appendChild(message_box) 
+        title.ondblclick = ()=>{copy_to_clipboard(message_box,this.data.name)}
         text.appendChild(title)
 
         let tagline = document.createElement('h3')

@@ -64,6 +64,9 @@
 
 .DV_title {
     font-size: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .DV_tagline {

@@ -64,8 +64,12 @@ class MovieDetails
         text.className = 'DV_mainText'
 
         let title = document.createElement('h2')
+        title.title = "Double click to copy title"
         title.className = 'DV_title'
-        title.innerHTML = this.data.title
+        title.innerHTML = this.data.title + '<div class="break"></div>'
+        let message_box = create_copied_message()
+        title.appendChild(message_box)
+        title.ondblclick = ()=>{copy_to_clipboard(message_box,this.data.title)}
         text.appendChild(title)
 
         let tagline = document.createElement('h3')

@@ -61,7 +61,12 @@ class PersonDetails
 
         let name = document.createElement('span')
         name.className = 'DV_name_of_person'
-        name.innerHTML = this.data.name
+        name.innerHTML = this.data.name + '<div class="break"></div>'
+        name.title = "Double click to copy name"
+        let message_box = create_copied_message()
+        message_box.style.bottom = '55px'
+        name.appendChild(message_box) 
+        name.ondblclick = ()=>{copy_to_clipboard(message_box,this.data.name)}
 
         text.appendChild(name)
         if(this.data.biography) text.appendChild(this.getBiography())

@@ -25,6 +25,9 @@
 .DV_name_of_person {
     font-size: 40px;
     font-weight: 500;
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
 }
 
 .DV_biography {

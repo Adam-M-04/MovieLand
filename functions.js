@@ -1,3 +1,26 @@
+function create_copied_message()
+{
+    let copied_message = document.createElement("div")
+    copied_message.innerText = "Copied!"
+    copied_message.className = "copied_message"
+    copied_message.setAttribute('visible', 'false')
+    return copied_message
+}
+
+function copy_to_clipboard(message_box, text_to_write)
+{
+    navigator.clipboard.writeText(text_to_write)
+    .then(() => {
+        message_box.setAttribute('visible', 'true')
+        setTimeout(() => {
+            message_box.setAttribute('visible', 'false')
+        }, 1000);
+    })
+    .catch(err => {
+        console.log('Could not copy to clipboard');
+    });
+}
+
 function createHeader(header_text, smaller = false)
 {
     let span = document.createElement('span')

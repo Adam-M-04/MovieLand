@@ -46,7 +46,7 @@
         clear: both;
         max-width: 100%;
         height: auto;
-        width: auto;
+        width: 400px;
         margin: 10px;
     }
 
@@ -73,4 +73,10 @@
         width: 100%;
     }
 
+}
+
+@media (max-width: 499px){
+    .DV_profile_img {
+        width: 100%;
+    }
 }

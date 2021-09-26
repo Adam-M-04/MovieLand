@@ -55,6 +55,11 @@ class PersonDetails
             (this.data.profile_path !== null) ? `https://image.tmdb.org/t/p/original${this.data.profile_path}` : '/img/default_person.svg',
             'DV_profile_img')
         profilePhoto.onerror = ()=>{profilePhoto.onerror = null; profilePhoto.src = '/img/default_person.svg'}
+        if(this.data.profile_path === null) 
+        {
+            profilePhoto.style.borderWidth = '0px'
+        }
+        
 
         let text = document.createElement('span')
         text.className = 'DV_main_text_person'
@@ -73,6 +78,13 @@ class PersonDetails
 
         let MainDiv = document.createElement('div')
         MainDiv.className = 'DV_main_div_person'
+        if(this.data.biography == "") 
+        {
+            profilePhoto.style.float = "none"
+            profilePhoto.style.marginRight = '0'
+            MainDiv.style.textAlign = "center"
+            name.style.justifyContent = "center"
+        }
         MainDiv.appendChild(profilePhoto)
         MainDiv.appendChild(text)
 

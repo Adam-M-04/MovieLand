@@ -65,8 +65,8 @@
 
     .DV_name_of_person {
         width: 100%;
-        text-align: center;
         margin-top: 20px;
+        justify-content: center;
     }
 
     .DV_biography {

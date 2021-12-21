@@ -50,8 +50,7 @@
 .genre_item {
     border: 2px solid #E5E5E5;
     padding: 8px 15px 8px 15px;
-    min-width: 80px;
-    width: fit-content;
+    min-width: 150px;
     margin: 10px;
     border-radius: 20px;
     font-size: 20px;

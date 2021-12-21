@@ -9,7 +9,7 @@ class Detailed_view
         this.contentDIV.innerHTML = '<img src="/img/loading.svg">'
         if(type === 'movie')
         {
-            fetch_data(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=credits,images,recommendations`, this, 'movie')
+            fetch_data(`https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=credits,images,recommendations,external_ids`, this, 'movie')
         }
         if(type === 'tv')
         {
@@ -69,7 +69,7 @@ class Detailed_view
             let elmnt = document.createElement('div')
             elmnt.className = 'DV_production_country'
             
-            let img = createIMG(`https://www.countryflags.io/${country.iso_3166_1.toLowerCase()}/shiny/48.png`,'DV_production_country_flag' )
+            let img = createIMG(`https://flagcdn.com/48x36/${country.iso_3166_1.toLowerCase()}.png`,'DV_production_country_flag' )
             img.alt = 'flag not found'
             elmnt.appendChild(img)
 
